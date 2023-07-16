@@ -1,0 +1,16 @@
+kmst
+graph
+insert 2 4 7.
+insert 1 5 1.
+kmst
+graph
+insert 3 5 1.
+insert 3 4 4.
+insert 1 2 2.
+kmst
+graph
+insert 2 3 1.
+insert 2 5 1.
+kmst
+graph
+eof
