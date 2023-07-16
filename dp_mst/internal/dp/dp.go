@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"runtime/trace"
 	"time"
 )
 
@@ -56,7 +55,6 @@ func input(istream string, out out_comm, Fsize int) {
 			out.Graph <- empty
 		}
 
-		time.Sleep(250 * time.Millisecond)
 	}
 	close(out.Req)
 	close(out.Graph)
@@ -129,7 +127,6 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 	// Insert first edge
 	root[e.X] = &cmn.Graph{e}
 
-	fmt.Println("(id = ", id, ") Generating with ", e)
 	for {
 		r, ok := <-in.Req
 		if !ok {
@@ -140,10 +137,8 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 		case cmn.Insert, cmn.Update:
 			if _, ok = root[r.E.X]; ok {
 				root[r.E.X].InsertUpdate(r.E)
-				fmt.Println("(id = ", id, ") Op:", r.Op, " adding/updating ", r.E)
 			} else if len(root) < Fsize {
 				root[r.E.X] = &cmn.Graph{e}
-				fmt.Println("(id = ", id, ") Op:", r.Op, " new root ", r.E)
 			} else {
 				out.Req <- r
 			}
@@ -170,7 +165,6 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 			for id, adje := range root {
 				local_root[id] = *adje
 			}
-			fmt.Println("(id = ", id, ") Op:", r.Op, " root ", local_root)
 
 			out.Req <- r
 			out.Graph <- g
@@ -197,9 +191,6 @@ func Start(istream string, Fsize int) {
 	out := in_comm{Req: gen_req, Graph: gen_grph}
 
 	end := make(chan struct{})
-
-	trace.Start(os.Stderr)
-	defer trace.Stop()
 
 	start := time.Now()
 	go input(istream, file_gen, Fsize)
