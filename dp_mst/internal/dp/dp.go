@@ -1,11 +1,13 @@
 package dp
 
 import (
+	"bufio"
 	cmn "dp_mst/internal/common"
 	"dp_mst/internal/mst"
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -27,10 +29,15 @@ func input(istream string, out out_comm, Fsize int) {
 	defer file.Close()
 	cmn.CheckError(err)
 
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanWords)
+
 	var r cmn.Request
 	for {
-		_, err = fmt.Fscanf(file, "%s", &r.Op)
-		if err == io.EOF {
+		scanner.Scan()
+		r.Op = cmn.Operation(scanner.Text())
+		err = scanner.Err()
+		if err == io.EOF || r.Op == "" {
 			break
 		}
 		cmn.CheckError(err)
@@ -38,8 +45,18 @@ func input(istream string, out out_comm, Fsize int) {
 		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF {
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
 		} else {
-			_, err = fmt.Fscanf(file, "%d %d %f\n", &r.E.X, &r.E.Y, &r.E.W)
+			scanner.Scan()
+			node1 := scanner.Text()
+			scanner.Scan()
+			node2 := scanner.Text()
+			scanner.Scan()
+			weight := scanner.Text()
+			err = scanner.Err()
 			cmn.CheckError(err)
+
+			r.E.X, err = strconv.ParseInt(node1, 10, 32)
+			r.E.Y, err = strconv.ParseInt(node2, 10, 32)
+			r.E.W, err = strconv.ParseFloat(weight, 64)
 		}
 
 		r.Normalize()
@@ -122,7 +139,7 @@ func generator(in in_comm, out out_comm, Fsize int) {
 
 func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 	// Initialize memory
-	root := make(map[int32]*cmn.Graph)
+	root := make(map[int64]*cmn.Graph)
 
 	// Insert first edge
 	root[e.X] = &cmn.Graph{e}
@@ -161,7 +178,7 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 				g = append(g, *adje...)
 			}
 
-			local_root := make(map[int32]cmn.Graph)
+			local_root := make(map[int64]cmn.Graph)
 			for id, adje := range root {
 				local_root[id] = *adje
 			}
@@ -200,3 +217,6 @@ func Start(istream string, Fsize int) {
 	t := time.Since(start)
 	fmt.Println("TotalExecutionTime,", t, ",", t.Microseconds(), "μs,", t.Milliseconds(), "ms ,", t.Seconds(), "s")
 }
+
+
+//

@@ -16,7 +16,7 @@ const (
 )
 
 type Edge struct {
-	X, Y int32
+	X, Y int64
 	W    float64
 }
 

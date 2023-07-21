@@ -7,7 +7,7 @@ import (
 
 // MF-Sets Functions ------------------------
 
-func father(i int32, id []int32) int32 {
+func father(i int64, id []int64) int64 {
 	for i != id[i] {
 		id[i] = id[id[i]]
 		i = id[i]
@@ -15,7 +15,7 @@ func father(i int32, id []int32) int32 {
 	return i
 }
 
-func unite(p,q int32, id []int32) {
+func unite(p,q int64, id []int64) {
 	i := father(p, id)
 	j := father(q, id)
 	id[i] = j
@@ -23,7 +23,7 @@ func unite(p,q int32, id []int32) {
 
 // Minimum Spanning Tree Functions ------------------------
 
-func Kruskal(root map[int32]*cmn.Graph, mst cmn.Graph) cmn.Graph {
+func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph) cmn.Graph {
 	for _, adje := range root {
 		mst = append(mst, *adje...)
 	}
@@ -32,9 +32,9 @@ func Kruskal(root map[int32]*cmn.Graph, mst cmn.Graph) cmn.Graph {
 		return mst[i].W < mst[j].W || (mst[i].W == mst[j].W && mst[i].X < mst[j].X)
 	})
 
-	m := make(map[int32]int32)
-	var id []int32
-	var cc int32
+	m := make(map[int64]int64)
+	var id []int64
+	var cc int64
 	cc = 0
 	var returnMST cmn.Graph
 

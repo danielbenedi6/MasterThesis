@@ -8,7 +8,7 @@ import (
 
 func TestKruskal(t *testing.T) {
 	type args struct {
-		root map[int32]*cmn.Graph
+		root map[int64]*cmn.Graph
 		mst  cmn.Graph
 	}
 	tests := []struct {
@@ -18,7 +18,7 @@ func TestKruskal(t *testing.T) {
 	}{
 		{name: "paper",
 			args: args{
-				root: map[int32]*cmn.Graph{
+				root: map[int64]*cmn.Graph{
 					1: {{X: 1, Y: 2, W: 2.}, {X: 1, Y: 5, W: 1.}},
 					2: {{X: 2, Y: 3, W: 1.}, {X: 2, Y: 5, W: 1.}, {X: 2, Y: 4, W: 7.}},
 					3: {{X: 3, Y: 4, W: 4.}, {X: 3, Y: 5, W: 1.}},
