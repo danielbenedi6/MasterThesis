@@ -90,12 +90,20 @@ func input_bufio(istream string, out out_comm, Fsize int) {
 	var r cmn.Request
 	for {
 		scanner.Scan()
-		r.Op = cmn.Operation(scanner.Text())
+		op := scanner.Text()
 		err = scanner.Err()
-		if err == io.EOF || r.Op == "" {
+		cmn.CheckError(err)
+		if err == io.EOF || op == "" {
+			break
+		}
+
+		op_int, err := strconv.ParseInt(op, 10, 64)
+		if err != nil {
 			break
 		}
 		cmn.CheckError(err)
+
+		r.Op = cmn.Operation(op_int)
 
 		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF {
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}

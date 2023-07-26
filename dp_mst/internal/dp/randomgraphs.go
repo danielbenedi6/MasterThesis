@@ -5,30 +5,31 @@ import (
 	"math/rand"
 )
 
-func ErdosRenyi(probMST float64, probEdge float64, N int64, out out_comm, Fsize int) {
+func ErdosRenyi(probMST float64, probEdge float64, N int64, seed int64, out out_comm, Fsize int) {
 	var i int64 = 0
 	var j int64 = i + 1
 	var r cmn.Request
-	
+
+	random := rand.New(rand.NewSource(seed))
+
 	for i < N {
-		if probMST > rand.Float64() {
-			r.Op = cmn.Operation("kmst")
+		if probMST > random.Float64() {
+			r.Op = cmn.KMST
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
-			out.Req <- r 
+			out.Req <- r
 			empty := make(cmn.Graph, 0)
 			out.Graph <- empty
 
-
-			r.Op = cmn.Operation("graph")
+			r.Op = cmn.GraphOp
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
-			out.Req <- r 
+			out.Req <- r
 			empty = make(cmn.Graph, 0)
 			out.Graph <- empty
 		} else {
-			if probEdge < rand.Float64() {
-				r.Op = cmn.Operation("insert")
-				r.E = cmn.Edge{X: i, Y: j, W: rand.Float64()}
-				out.Req <- r 
+			if probEdge < random.Float64() {
+				r.Op = cmn.Insert
+				r.E = cmn.Edge{X: i, Y: j, W: random.Float64()}
+				out.Req <- r
 			}
 
 			j++
@@ -38,4 +39,10 @@ func ErdosRenyi(probMST float64, probEdge float64, N int64, out out_comm, Fsize 
 			}
 		}
 	}
+
+	r.Op = cmn.EOF
+	r.E = cmn.Edge{X: -1, Y: -1, W: 0}
+	out.Req <- r
+	empty := make(cmn.Graph, 0)
+	out.Graph <- empty
 }

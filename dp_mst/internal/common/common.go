@@ -4,15 +4,15 @@ import (
 	"log"
 )
 
-type Operation string
+type Operation int64
 
 const (
-	Insert  Operation = "insert"
-	Update            = "update"
-	Delete            = "delete"
-	KMST              = "kmst"
-	EOF               = "eof"
-	GraphOp           = "graph"
+	Insert  Operation = 1
+	Update            = 2
+	Delete            = 3
+	KMST              = 4
+	EOF               = 5
+	GraphOp           = 6
 )
 
 type Edge struct {
