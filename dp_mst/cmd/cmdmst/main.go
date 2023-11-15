@@ -8,6 +8,7 @@ import (
 	"os"
 	"runtime"
 	"runtime/pprof"
+	"runtime/trace"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 	//Pprof variables -----------------------
 	var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	var memprofile = flag.String("memprofile", "", "write memory profile to `file`")
+	var tracefile = flag.String("tracefile", "", "write trace execution to `file`")
 	flag.StringVar(&istream, "file", "", "Specify input file. Default is emptyfile")
 	flag.Parse()
 
@@ -37,6 +39,16 @@ func main() {
 		}
 		pprof.StartCPUProfile(f)
 		defer pprof.StopCPUProfile()
+	}
+	if *tracefile != "" {
+		f, err := os.Create(*tracefile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if err := trace.Start(f); err != nil {
+			log.Fatalf("failed to start trace: %v", err)
+		}
+		defer trace.Stop()
 	}
 
 	dp.Start(istream, Fsize)
