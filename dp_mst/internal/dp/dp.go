@@ -147,11 +147,51 @@ func generator(in in_comm, out out_comm, Fsize int) {
 }
 
 func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
+	s := make(map[int64]struct{})
+
+	int_comm := make(chan cmn.Request, 4096)
+
+	go filter_worker(id, in_comm{int_comm, in.Graph}, out.Graph)
+
+	for {
+		r, ok := <-in.Req
+		if !ok {
+			break
+		}
+
+		switch r.Op {
+		case cmn.Insert, cmn.Update:
+			if _, ok = s[r.E.X]; ok {
+				int_comm <- r
+			} else if len(s) < Fsize {
+				int_comm <- r
+			} else {
+				out.Req <- r
+			}
+		case cmn.Delete:
+			if _, ok = s[r.E.X]; ok {
+				int_comm <- r
+			} else {
+				out.Req <- r
+			}
+		case cmn.KMST:
+			int_comm <- r
+		case cmn.GraphOp:
+			int_comm <- r
+		case cmn.EOF:
+			out.Req <- r
+			break
+		}
+	}
+
+	close(out.Req)
+	close(out.Graph)
+}
+
+func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
+
 	// Initialize memory
 	root := make(map[int64]*cmn.Graph)
-
-	// Insert first edge
-	root[e.X] = &cmn.Graph{e}
 
 	for {
 		r, ok := <-in.Req
@@ -163,24 +203,17 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 		case cmn.Insert, cmn.Update:
 			if _, ok = root[r.E.X]; ok {
 				root[r.E.X].InsertUpdate(r.E)
-			} else if len(root) < Fsize {
-				root[r.E.X] = &cmn.Graph{e}
 			} else {
-				out.Req <- r
+				root[r.E.X] = &cmn.Graph{r.E}
 			}
 		case cmn.Delete:
 			if _, ok = root[r.E.X]; ok {
 				root[r.E.X].Delete(r.E)
-			} else {
-				out.Req <- r
 			}
 		case cmn.KMST:
 			g, _ := <-in.Graph
-
 			g = mst.Kruskal(root, g)
-
-			out.Req <- r
-			out.Graph <- g
+			out <- g
 		case cmn.GraphOp:
 			g, _ := <-in.Graph
 			for _, adje := range root {
@@ -192,16 +225,13 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 				local_root[id] = *adje
 			}
 
-			out.Req <- r
-			out.Graph <- g
+			out <- g
 		case cmn.EOF:
-			out.Req <- r
 			break
 		}
 	}
 
-	close(out.Req)
-	close(out.Graph)
+	close(out)
 }
 
 func Start(istream string, Fsize int) {

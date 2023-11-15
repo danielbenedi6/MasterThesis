@@ -23,6 +23,7 @@ func main() {
 	//---------------------------------------
 	// Filter size (number of "root nodes" stored by each filter)
 	var Fsize int
+	fmt.Print("Number of nodes per filter: ")
 	fmt.Scan(&Fsize)
 
 	maxProcs := runtime.GOMAXPROCS(0)
