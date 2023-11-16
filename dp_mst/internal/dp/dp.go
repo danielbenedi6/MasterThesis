@@ -147,7 +147,7 @@ func generator(in in_comm, out out_comm, Fsize int) {
 }
 
 func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
-	s := make(map[int64]struct{})
+	s := map[int64]struct{}{}
 
 	int_comm := make(chan cmn.Request, 4096)
 
@@ -164,6 +164,7 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 			if _, ok = s[r.E.X]; ok {
 				int_comm <- r
 			} else if len(s) < Fsize {
+				s[r.E.X] = struct{}{}
 				int_comm <- r
 			} else {
 				out.Req <- r
