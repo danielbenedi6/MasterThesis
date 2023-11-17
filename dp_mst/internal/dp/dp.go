@@ -40,11 +40,17 @@ func input(istream string, out out_comm, Fsize int) {
 		err = scanner.Err()
 		cmn.CheckError(err)
 		if err == io.EOF || op == "" {
+			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
+			empty := make(cmn.Graph, 0)
+			out.Graph <- empty
 			break
 		}
 
 		op_int, err := strconv.ParseInt(op, 10, 64)
 		if err != nil {
+			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
+			empty := make(cmn.Graph, 0)
+			out.Graph <- empty
 			break
 		}
 		cmn.CheckError(err)
@@ -71,16 +77,14 @@ func input(istream string, out out_comm, Fsize int) {
 		r.Normalize()
 
 		out.Req <- r
-
-		if r.Op == cmn.EOF {
-			break
-		}
-
-		if r.Op == cmn.KMST || r.Op == cmn.GraphOp {
+		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF {
 			empty := make(cmn.Graph, 0)
 			out.Graph <- empty
 		}
 
+		if r.Op == cmn.EOF {
+			break
+		}
 	}
 	close(out.Req)
 	close(out.Graph)
@@ -101,6 +105,7 @@ func output(istream string, in in_comm, end chan<- struct{}) {
 			g, _ := <-in.Graph
 			fmt.Println("MST", g)
 		case cmn.EOF:
+			<-in.Graph
 			break
 		default: //something's wrong
 			fmt.Println("Unknown operation in output")
@@ -135,6 +140,9 @@ func generator(in in_comm, out out_comm, Fsize int) {
 			out.Req <- r
 			out.Graph <- g
 		case cmn.EOF:
+			g, _ := <-in.Graph
+			out.Req <- r
+			out.Graph <- g
 			out.Req <- r
 			break
 		default: //something's wrong
@@ -177,16 +185,18 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 			}
 		case cmn.KMST:
 			int_comm <- r
+			out.Req <- r
 		case cmn.GraphOp:
 			int_comm <- r
+			out.Req <- r
 		case cmn.EOF:
+			int_comm <- r
 			out.Req <- r
 			break
 		}
 	}
 
 	close(out.Req)
-	close(out.Graph)
 }
 
 func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
@@ -221,13 +231,10 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
 				g = append(g, *adje...)
 			}
 
-			local_root := make(map[int64]cmn.Graph)
-			for id, adje := range root {
-				local_root[id] = *adje
-			}
-
 			out <- g
 		case cmn.EOF:
+			<-in.Graph
+			out <- cmn.Graph{}
 			break
 		}
 	}
