@@ -1,5 +1,6 @@
 import random
 import networkx
+import math
 from enum import IntEnum
 
 class Operation(IntEnum):
@@ -12,40 +13,72 @@ class Operation(IntEnum):
 
 def write_graph(G, name):
     with open(name, "w") as file:
-        edges = list(G.edges(data=True))
-        random.shuffle(edges)
-        nodes = list(G.nodes())
+        random.shuffle(G)
         edge = 0
 
-        while edge < len(edges):
-            u,v,w = edges[edge]
+        while edge < len(G):
+            u,v,w = G[edge]
             probability = random.random()
             if probability >= 0.5:
                 u,v = v,u
-            file.write(f"{Operation.Insert} {nodes.index(u)} {nodes.index(v)} {w['weight']}\n")
+            file.write(f"{Operation.Insert} {u} {v} {w}\n")
             edge += 1
         
         file.write(f"{Operation.GraphOp}\n")
         file.write(f"{Operation.KMST}\n")
         file.write(f"{Operation.EOF}\n")
             
-        
+def binomial_graph(n,p):
+    G = []
+
+    lp = math.log(1.0 - p)
+
+    # Nodes in graph are from 0,n-1 (start with v as the second node index).
+    v = 1
+    u = -1
+    while v < n:
+        lr = math.log(1.0 - random.random())
+        u = u + 1 + int(lr / lp)
+        while u >= v and v < n:
+            u = u - v
+            v = v + 1
+        if v < n:
+            w = random.random() + 1 # generate random weight
+            G += [(v, u, w)]
+    return G        
 
 def explode_nodes(G):
-    nodes_to_explode = [node for node in G.nodes() if G.degree[node] > 3]
+    N = max(G)[0] + 1
+    deg_seq = [0 for _ in range(N)]
+    for edge in G:
+        u,v,_ = edge
+        deg_seq[u] += 1
+        deg_seq[v] += 1
 
-    for node in nodes_to_explode:
-        neighbors = list(G.neighbors(node))
-        num_neighbors = len(neighbors)
-        new_nodes = []
-        # Create d new nodes and connect them with zero-weight edges
-        for i in range(num_neighbors):
-            new_nodes += [f"{node}_{i}"]
-            if len(new_nodes) > 1:
-                G.add_edge(new_nodes[-2], new_nodes[-1], weight=0)  # Connect exploded nodes with weight 0
-            G.add_edge(new_nodes[-1], neighbors[i], weight=G[node][neighbors[i]]["weight"])  # Connect to original neighbors 
-        G.add_edge(new_nodes[0], new_nodes[-1], weight=0)
-        G.remove_node(node)  # Remove the original node after exploding
+    nodes_to_explode = [deg_seq[node] > 3 for node in range(N)]
+    transform = dict()
+    
+    M = len(G)
+    for edge in range(M):
+        u,v,w = G[edge]
+
+        if nodes_to_explode[u]:
+            transform.setdefault(u, []).extend([N])
+            u = N
+            N += 1
+
+        if nodes_to_explode[v]:
+            transform.setdefault(v, []).extend([N])
+            v = N
+            N += 1
+        
+        G[edge] = (u,v,w)
+
+    for original in transform:
+        new_nodes = transform[original]
+        for i in range(len(new_nodes)):
+            G += [(new_nodes[i-1],new_nodes[i],0)]
+    
 
 def main():
     try:
