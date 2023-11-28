@@ -1,5 +1,4 @@
 import random
-import networkx
 import math
 from enum import IntEnum
 
@@ -87,12 +86,7 @@ def main():
         s = int(input("Enter the seed: "))
 
         random.seed(s)
-        G = networkx.binomial_graph(N,p,seed=s)
-
-        for u,v in G.edges():
-            w = random.random() + 1
-            G[u][v]["weight"] = w
-
+        G = binomial_graph(N,p)
         write_graph(G, f"input_test/{N}.requests")
         explode_nodes(G)
         write_graph(G, f"input_test/{N}_max3.requests")
