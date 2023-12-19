@@ -13,6 +13,9 @@ const (
 	KMST              = 4
 	EOF               = 5
 	GraphOp           = 6
+	SaveState		  = 7
+	LoadState		  = 8
+	CurrTime		  = 9
 )
 
 type Edge struct {

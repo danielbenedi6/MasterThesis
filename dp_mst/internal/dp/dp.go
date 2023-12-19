@@ -4,8 +4,10 @@ import (
 	"bufio"
 	cmn "dp_mst/internal/common"
 	"dp_mst/internal/mst"
+	"encoding/gob"
 	"fmt"
 	"io"
+	"log"
 	"math/rand"
 	"os"
 	"strconv"
@@ -91,6 +93,8 @@ func input(istream string, out out_comm, Fsize int) {
 }
 
 func output(istream string, in in_comm, end chan<- struct{}) {
+	var timestamps []time.Time
+	timestamps = append(timestamps, time.Now())
 	for {
 		r, ok := <-in.Req
 		if !ok {
@@ -104,6 +108,9 @@ func output(istream string, in in_comm, end chan<- struct{}) {
 		case cmn.KMST:
 			g, _ := <-in.Graph
 			fmt.Println("MST", g)
+		case cmn.CurrTime:
+			timestamps = append(timestamps, time.Now())
+			fmt.Println("Ellapsed Time Since Last: ", timestamps[len(timestamps)-1].Sub(timestamps[len(timestamps)-2]))
 		case cmn.EOF:
 			<-in.Graph
 			break
@@ -145,6 +152,33 @@ func generator(in in_comm, out out_comm, Fsize int) {
 			out.Graph <- g
 			out.Req <- r
 			break
+		case cmn.SaveState:
+			// Do nothing
+		case cmn.LoadState:
+			// Generate the needed number of filters
+			dir, err := os.ReadDir("./savestate")
+			if err != nil {
+				fmt.Println("Could not open folder savestate")
+				break
+			}
+			if len(dir)%2 != 0 {
+				fmt.Println("Savestate folder may be wrong")
+				break
+			}
+
+			for filter_count != len(dir)/2 {
+				out_req := make(chan cmn.Request, channelSize)
+				out_grph := make(chan cmn.Graph, channelSize)
+				new_out := out_comm{Req: out_req, Graph: out_grph}
+				new_in := in_comm{Req: out_req, Graph: out_grph}
+
+				go filter(filter_count, in, new_out, r.E, Fsize)
+				filter_count++
+				in = new_in
+			}
+		case cmn.CurrTime:
+			// Do nothing
+			out.Req <- r
 		default: //something's wrong
 			fmt.Println("Unknown operation in generator")
 			break
@@ -189,6 +223,40 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 		case cmn.GraphOp:
 			int_comm <- r
 			out.Req <- r
+		case cmn.SaveState:
+			int_comm <- r
+			out.Req <- r
+
+			file, err := os.Create("./savestate/filter_" + strconv.Itoa(id) + ".bin")
+			if err != nil {
+				log.Fatal("Cannot open file for savestate of filer " + strconv.Itoa(id))
+			}
+
+			// Create a new gob encoder and use it to encode the person struct
+			enc := gob.NewEncoder(file)
+			if err := enc.Encode(s); err != nil {
+				fmt.Println("Error encoding struct:", err)
+				return
+			}
+
+			file.Close()
+		case cmn.LoadState:
+			int_comm <- r
+			out.Req <- r
+
+			file, err := os.Open("./savestate/filter_" + strconv.Itoa(id) + ".bin")
+			if err != nil {
+				log.Fatal("Cannot open savestate of filter " + strconv.Itoa(id))
+			}
+
+			dec := gob.NewDecoder(file)
+			if err := dec.Decode(&s); err != nil {
+				log.Fatal("Cannot load state of filter " + strconv.Itoa(id))
+			}
+
+			file.Close()
+		case cmn.CurrTime:
+			out.Req <- r
 		case cmn.EOF:
 			int_comm <- r
 			out.Req <- r
@@ -232,6 +300,32 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
 			}
 
 			out <- g
+		case cmn.SaveState:
+			file, err := os.Create("savestate/worker_filter_" + strconv.Itoa(id) + ".bin")
+			if err != nil {
+				log.Fatal("Cannot open file for savestate of worker " + strconv.Itoa(id))
+			}
+
+			// Create a new gob encoder and use it to encode the person struct
+			enc := gob.NewEncoder(file)
+			if err := enc.Encode(root); err != nil {
+				fmt.Println("Error encoding state of worker:", err)
+				return
+			}
+
+			file.Close()
+		case cmn.LoadState:
+			file, err := os.Open("savestate/worker_filter_" + strconv.Itoa(id) + ".bin")
+			if err != nil {
+				log.Fatal("Cannot open savestate of worker " + strconv.Itoa(id))
+			}
+
+			dec := gob.NewDecoder(file)
+			if err := dec.Decode(&root); err != nil {
+				log.Fatal("Cannot load state of worker " + strconv.Itoa(id))
+			}
+
+			file.Close()
 		case cmn.EOF:
 			<-in.Graph
 			out <- cmn.Graph{}
