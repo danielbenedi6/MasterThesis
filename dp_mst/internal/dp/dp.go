@@ -45,6 +45,7 @@ func input(istream string, out out_comm, Fsize int) {
 			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
 			empty := make(cmn.Graph, 0)
 			out.Graph <- empty
+			fmt.Println("Err := ", err, " Op :=", op)
 			break
 		}
 
@@ -58,8 +59,9 @@ func input(istream string, out out_comm, Fsize int) {
 		cmn.CheckError(err)
 
 		r.Op = cmn.Operation(op_int)
+		fmt.Println("Readed operation: ", r.Op)
 
-		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF {
+		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF || r.Op == cmn.LoadState || r.Op == cmn.SaveState || r.Op == cmn.CurrTime {
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
 		} else {
 			scanner.Scan()
@@ -79,7 +81,7 @@ func input(istream string, out out_comm, Fsize int) {
 		r.Normalize()
 
 		out.Req <- r
-		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF {
+		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF || r.Op == cmn.LoadState || r.Op == cmn.SaveState {
 			empty := make(cmn.Graph, 0)
 			out.Graph <- empty
 		}
@@ -88,6 +90,7 @@ func input(istream string, out out_comm, Fsize int) {
 			break
 		}
 	}
+	fmt.Println("Input finished")
 	close(out.Req)
 	close(out.Graph)
 }
@@ -136,7 +139,7 @@ func generator(in in_comm, out out_comm, Fsize int) {
 			new_out := out_comm{Req: out_req, Graph: out_grph}
 			new_in := in_comm{Req: out_req, Graph: out_grph}
 
-			go filter(filter_count, in, new_out, r.E, Fsize)
+			go filter(filter_count, in, new_out, r, Fsize)
 			filter_count++
 			in = new_in
 		case cmn.Delete:
@@ -166,15 +169,17 @@ func generator(in in_comm, out out_comm, Fsize int) {
 				break
 			}
 
-			for filter_count != len(dir)/2 {
+			if filter_count != len(dir)/2 {
 				out_req := make(chan cmn.Request, channelSize)
 				out_grph := make(chan cmn.Graph, channelSize)
 				new_out := out_comm{Req: out_req, Graph: out_grph}
 				new_in := in_comm{Req: out_req, Graph: out_grph}
 
-				go filter(filter_count, in, new_out, r.E, Fsize)
+				go filter(filter_count, in, new_out, r, Fsize)
 				filter_count++
 				in = new_in
+			} else {
+				<-in.Graph
 			}
 		case cmn.CurrTime:
 			// Do nothing
@@ -188,19 +193,15 @@ func generator(in in_comm, out out_comm, Fsize int) {
 	close(out.Graph)
 }
 
-func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
+func filter(id int, in in_comm, out out_comm, r cmn.Request, Fsize int) {
 	s := map[int64]struct{}{}
 
 	int_comm := make(chan cmn.Request, 4096)
 
 	go filter_worker(id, in_comm{int_comm, in.Graph}, out.Graph)
+	var ok bool
 
 	for {
-		r, ok := <-in.Req
-		if !ok {
-			break
-		}
-
 		switch r.Op {
 		case cmn.Insert, cmn.Update:
 			if _, ok = s[r.E.X]; ok {
@@ -255,11 +256,18 @@ func filter(id int, in in_comm, out out_comm, e cmn.Edge, Fsize int) {
 			}
 
 			file.Close()
+
+			fmt.Println("Filter ", id, "loaded state")
 		case cmn.CurrTime:
 			out.Req <- r
 		case cmn.EOF:
 			int_comm <- r
 			out.Req <- r
+			break
+		}
+
+		r, ok = <-in.Req
+		if !ok {
 			break
 		}
 	}
@@ -314,7 +322,12 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
 			}
 
 			file.Close()
+
+			g, _ := <-in.Graph
+			out <- g
 		case cmn.LoadState:
+			g, _ := <-in.Graph
+
 			file, err := os.Open("savestate/worker_filter_" + strconv.Itoa(id) + ".bin")
 			if err != nil {
 				log.Fatal("Cannot open savestate of worker " + strconv.Itoa(id))
@@ -326,6 +339,9 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
 			}
 
 			file.Close()
+
+			fmt.Println("Worker ", id, "loaded state")
+			out <- g
 		case cmn.EOF:
 			<-in.Graph
 			out <- cmn.Graph{}
