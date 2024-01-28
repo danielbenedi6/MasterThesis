@@ -2,3 +2,4 @@ savestate
 __pycache__
 *.prof
 *.out
+saves
