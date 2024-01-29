@@ -3,3 +3,5 @@ FullyDynMSTs
 dp_mst/bin
 dp_mst/input_test
 .idea
+*.pgf
+*.requests
