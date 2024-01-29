@@ -2,4 +2,6 @@ savestate
 __pycache__
 *.prof
 *.out
+*.csv
+*.png
 saves
