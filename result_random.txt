@@ -1,0 +1,2 @@
+χ2 test
+Reject: 2.015%. Suspect: 6.606%. Almost suspect: 10.343%. Alright: 81.036%
