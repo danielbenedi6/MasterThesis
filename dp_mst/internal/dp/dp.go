@@ -26,7 +26,7 @@ type out_comm struct {
 	Graph chan<- cmn.Graph
 }
 
-func input(istream string, out out_comm, Fsize int) {
+func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 	file, err := os.Open(istream + ".requests")
 	cmn.CheckError(err)
 	defer file.Close()
@@ -86,6 +86,10 @@ func input(istream string, out out_comm, Fsize int) {
 			out.Graph <- empty
 		}
 
+		if r.Op == cmn.LoadState {
+			<-inputSync
+		}
+
 		if r.Op == cmn.EOF {
 			break
 		}
@@ -125,7 +129,7 @@ func output(istream string, in in_comm, end chan<- struct{}) {
 	end <- struct{}{}
 }
 
-func generator(in in_comm, out out_comm, Fsize int) {
+func generator(in in_comm, out out_comm, Fsize int, inputSync chan<- struct{}) {
 	filter_count := 0
 	for {
 		r, ok := <-in.Req
@@ -179,6 +183,7 @@ func generator(in in_comm, out out_comm, Fsize int) {
 				filter_count++
 				in = new_in
 			} else {
+				inputSync <- struct{}{}
 				<-in.Graph
 			}
 		case cmn.CurrTime:
@@ -365,10 +370,11 @@ func Start(istream string, Fsize int) {
 	out := in_comm{Req: gen_req, Graph: gen_grph}
 
 	end := make(chan struct{})
+	inputSync := make(chan struct{})
 
 	start := time.Now()
-	go input(istream, file_gen, Fsize)
-	go generator(gen, gen_out, Fsize)
+	go input(istream, file_gen, Fsize, inputSync)
+	go generator(gen, gen_out, Fsize, inputSync)
 	go output(istream, out, end)
 	<-end
 	t := time.Since(start)
@@ -396,10 +402,11 @@ func RandomStart(Fsize int, Nmin, Nmax, Ndelta, Ngraph, Nrep int64, Dmin, Dmax, 
 					out := in_comm{Req: gen_req, Graph: gen_grph}
 
 					end := make(chan struct{})
+					inputSync := make(chan struct{})
 
 					start := time.Now()
 					go ErdosRenyi(0.05, D, N, seed, input_chan, Fsize)
-					go generator(data_chan, gen_out, Fsize)
+					go generator(data_chan, gen_out, Fsize, inputSync)
 					go output("", out, end)
 					<-end
 					t := time.Since(start)
