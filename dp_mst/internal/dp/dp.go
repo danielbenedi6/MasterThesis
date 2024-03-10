@@ -183,8 +183,8 @@ func generator(in in_comm, out out_comm, Fsize int, inputSync chan<- struct{}) {
 				filter_count++
 				in = new_in
 			} else {
-				inputSync <- struct{}{}
 				<-in.Graph
+				inputSync <- struct{}{}
 			}
 		case cmn.CurrTime:
 			// Do nothing
