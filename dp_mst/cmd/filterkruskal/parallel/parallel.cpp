@@ -26,33 +26,39 @@ void Kruskal(
 
 Edge* ParallelFilterKruskal(Edge* G, long int M, long int N) {
     std::vector<Edge> _G(G, G+M);
-    for(int i = 0; i < M; i++) {
-        std::cout << "C++ G(" << _G[i].X << "," << _G[i].Y << ") [" << _G[i].W << "]" << std::endl;
-    }
+    //for(int i = 0; i < M; i++) {
+    //    std::cout << "C++ G(" << _G[i].X << "," << _G[i].Y << ") [" << _G[i].W << "]" << std::endl;
+    //}
     std::vector<Edge> _MST;
     std::vector<long int> ID;
     std::unordered_map<long int, long int> map;
     long int initCC = 0;
-    //for(int p = 0; p < N; p++)
-    //    ID.push_back(p);
 
     _MST.reserve(N);
     ParallelFK(_G, N, _MST, ID, map, initCC);
-
+	
     Edge *MST = new Edge[N-1];
     std::copy(_MST.begin(), _MST.end(), MST);
 
-    for(int i = 0; i < N-1; i++) {
-        std::cout << "C++ (" << _MST[i].X << "," << _MST[i].Y << ") [" << _MST[i].W << "]" << std::endl;
-    }
+    //for(int i = 0; i < N-1; i++) {
+    //    std::cout << "C++ (" << _MST[i].X << "," << _MST[i].Y << ") [" << _MST[i].W << "]" << std::endl;
+    //}
 
     return MST;
 }
 
 long int father(long int i, std::vector<long int>& id) {
+	//std::cout << "ID: [";
+	//for(auto elem : id) {
+	//	std::cout << elem << " ";
+	//}
+	//std::cout << "]" << std::endl;
+	//std::cout << "i = " << i << std::endl;
     while(i != id[i]) {
         id[i] = id[id[i]];
         i = id[i];
+		
+		//std::cout << "i = " << i << std::endl;
     }
     return i;
 }
@@ -116,7 +122,7 @@ void ParallelFK(
             auto e = E_gt[i];
             auto X_set = M.find(e.X);
             auto Y_set = M.find(e.Y);
-            if(X_set == M.end() || Y_set == M.end() || father(e.X, P) != father(e.Y, P))
+            if(X_set == M.end() || Y_set == M.end() || father(M[e.X], P) != father(M[e.Y], P))
                 local_E_gt.push_back(e);
         }
 
@@ -150,6 +156,7 @@ void Kruskal(
                 M[e.X] = CC;
                 P.push_back(CC);
                 CC++;
+        		Y_set = M.find(e.Y);
             }
             if(Y_set == M.end()) {
                 M[e.Y] = CC;

@@ -105,10 +105,10 @@ func FilterKruskal(G []cmn.Edge, N, left, right int64, MST *[]cmn.Edge, P *[]int
 	left = l + 1
 	for l < r {
 		//Condition to keep: mst.mst.Father(e.X, P) != mst.mst.Father(e.Y, P)
-		for l < r && mst.Father(G[l].X, *P) != mst.Father(G[l].Y, *P) {
+		for l < r && mst.Father(M[G[l].X], *P) != mst.Father(M[G[l].Y], *P) {
 			l++
 		}
-		for l < r && mst.Father(G[r].X, *P) == mst.Father(G[r].Y, *P) {
+		for l < r && mst.Father(M[G[r].X], *P) == mst.Father(M[G[r].Y], *P) {
 			r--
 		}
 
@@ -184,7 +184,7 @@ func FilterKruskal(G []cmn.Edge, N, left, right int64, MST *[]cmn.Edge, P *[]int
 // }
 
 func main() {
-	N := int64(10)
+	N := int64(5000)
 	G := GenerateGraph(N, 0.75, 1321412333121)
 
 	fmt.Println("G generated")
@@ -227,7 +227,7 @@ func main() {
 		M = make(map[int64]int64)
 		CC = int64(0)
 		MSTptr := parallel.ParallelFilterKruskal(&G[0], int64(len(G)), N)
-		MST = (*(*[10]cmn.Edge)(unsafe.Pointer(&MSTptr)))[: N-1 : N-1]
+		MST = (*(*[100000]cmn.Edge)(unsafe.Pointer(&MSTptr)))[: N-1 : N-1]
 		elapsed = time.Since(start)
 		fmt.Println("Time: ", elapsed, " -> ", float64(elapsed))
 
