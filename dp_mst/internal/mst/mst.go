@@ -1,8 +1,8 @@
 package mst
 
 import (
-	"sort"
 	cmn "dp_mst/internal/common"
+	"sort"
 )
 
 // MF-Sets Functions ------------------------
@@ -15,10 +15,18 @@ func father(i int64, id []int64) int64 {
 	return i
 }
 
-func unite(p,q int64, id []int64) {
+func Father(i int64, id []int64) int64 {
+	return father(i, id)
+}
+
+func unite(p, q int64, id []int64) {
 	i := father(p, id)
 	j := father(q, id)
 	id[i] = j
+}
+
+func Unite(p, q int64, id []int64) {
+	unite(p, q, id)
 }
 
 // Minimum Spanning Tree Functions ------------------------
