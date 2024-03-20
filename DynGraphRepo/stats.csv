@@ -1,5 +1,5 @@
-amazon-ratings.requests;2146058;5838041
-movielens10m.requests;69879;10000054
-simplewiki.requests;100312;100312
-frwiki.requests;2212682;2212682
-as-caida.requests;31379;119468
+amazon-ratings;495452;476728
+as-caida;31379;119468
+frwiki;2212682;31624375
+movielens10m;49847;384585
+simplewiki;100312;889016
