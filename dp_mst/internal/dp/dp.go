@@ -199,11 +199,11 @@ func generator(in in_comm, out out_comm, Fsize int, inputSync chan<- struct{}) {
 }
 
 func filter(id int, in in_comm, out out_comm, r cmn.Request, Fsize int) {
-	s := map[int64]struct{}{}
+	s := make(map[int64]struct{}, Fsize)
 
 	int_comm := make(chan cmn.Request, 4096)
 
-	go filter_worker(id, in_comm{int_comm, in.Graph}, out.Graph)
+	go filter_worker(id, in_comm{int_comm, in.Graph}, out.Graph, Fsize)
 	var ok bool
 
 	for {
@@ -280,10 +280,10 @@ func filter(id int, in in_comm, out out_comm, r cmn.Request, Fsize int) {
 	close(out.Req)
 }
 
-func filter_worker(id int, in in_comm, out chan<- cmn.Graph) {
+func filter_worker(id int, in in_comm, out chan<- cmn.Graph, Fsize int) {
 
 	// Initialize memory
-	root := make(map[int64]*cmn.Graph)
+	root := make(map[int64]*cmn.Graph, Fsize)
 
 	for {
 		r, ok := <-in.Req
