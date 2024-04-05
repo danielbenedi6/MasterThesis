@@ -10,6 +10,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"os/signal"
 	"strconv"
 	"time"
 )
@@ -35,8 +36,24 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanWords)
 
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	finish := false
+
 	var r cmn.Request
-	for {
+	for !finish {
+		select {
+		case x, _ := <-c:
+			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
+			empty := make(cmn.Graph, 0)
+			out.Graph <- empty
+			fmt.Println("Signal ", x, " received. Finishing work!!")
+			finish = true
+			continue
+		default:
+			// No signal, so continue
+		}
+
 		scanner.Scan()
 		op := scanner.Text()
 		err = scanner.Err()
