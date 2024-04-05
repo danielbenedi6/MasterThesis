@@ -2,7 +2,6 @@ package mst
 
 import (
 	cmn "dp_mst/internal/common"
-	"sort"
 )
 
 // MF-Sets Functions ------------------------
@@ -32,44 +31,61 @@ func Unite(p, q int64, id []int64) {
 // Minimum Spanning Tree Functions ------------------------
 
 func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph) cmn.Graph {
-	sizeG := 0
-	for _, adje := range root {
-		sizeG += len(*adje)
-	}
-	localG := make(cmn.Graph, 0, sizeG)
-	for _, adje := range root {
-		localG = append(localG, *adje...)
-	}
+	//sizeG := 0
+	//for _, adje := range root {
+	//	sizeG += len(*adje)
+	//}
+	//localG := make(cmn.Graph, 0, sizeG)
+	//for _, adje := range root {
+	//	localG = append(localG, *adje...)
+	//}
+	//
+	//sort.Slice(localG, func(i, j int) bool {
+	//	return localG[i].W < localG[j].W || (localG[i].W == localG[j].W && localG[i].X < localG[j].X)
+	//})
+	keys := make([]int64, len(root))
 
-	sort.Slice(localG, func(i, j int) bool {
-		return localG[i].W < localG[j].W || (localG[i].W == localG[j].W && localG[i].X < localG[j].X)
-	})
+	i := 0
+	for k := range root {
+		keys[i] = k
+		i++
+	}
 
 	m := make(map[int64]int64)
 	var id []int64
 	var cc int64
 	cc = 0
-	returnMST := make(cmn.Graph, 0, len(mst)+len(localG))
+	returnMST := make(cmn.Graph, 0, 50000)
 
-	idMST := 0
-	idLocalG := 0
-	for idMST < len(mst) || idLocalG < len(localG) {
-		var e cmn.Edge
-		if idMST < len(mst) && idLocalG < len(localG) {
-			if mst[idMST].W < localG[idLocalG].W {
-				e = mst[idMST]
-				idMST++
+	ids := make([]int, len(root)+1)
+
+	for {
+		nextID := -1
+		for idx, _ := range ids {
+			if idx < len(root) {
+				if ids[idx] < len(*root[keys[idx]]) {
+					if nextID == -1 || (*root[keys[idx]])[ids[idx]].W < (*root[keys[nextID]])[ids[nextID]].W {
+						nextID = idx
+					}
+				}
 			} else {
-				e = localG[idLocalG]
-				idLocalG++
+				if ids[idx] < len(mst) && (nextID == -1 || mst[ids[idx]].W < (*root[keys[nextID]])[ids[nextID]].W) {
+					nextID = idx
+				}
 			}
-		} else if idMST < len(mst) {
-			e = mst[idMST]
-			idMST++
-		} else {
-			e = localG[idLocalG]
-			idLocalG++
 		}
+
+		if nextID == -1 {
+			break
+		}
+
+		var e cmn.Edge
+		if nextID < len(root) {
+			e = (*root[keys[nextID]])[ids[nextID]]
+		} else {
+			e = mst[ids[nextID]]
+		}
+		ids[nextID]++
 
 		// Check wheter each edge is already in graph
 		_, ok1 := m[e.X]
