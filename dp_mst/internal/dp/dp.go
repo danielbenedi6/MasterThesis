@@ -59,7 +59,7 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 		cmn.CheckError(err)
 
 		r.Op = cmn.Operation(op_int)
-		fmt.Println("Readed operation: ", r.Op)
+		//fmt.Println("Readed operation: ", r.Op)
 
 		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF || r.Op == cmn.LoadState || r.Op == cmn.SaveState || r.Op == cmn.CurrTime {
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
@@ -90,6 +90,12 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 			<-inputSync
 		}
 
+		if r.Op == cmn.Insert || r.Op == cmn.Delete {
+			out.Req <- cmn.Request{Op: cmn.KMST, E: cmn.Edge{X: -1, Y: -1, W: 0}}
+			empty := make(cmn.Graph, 0)
+			out.Graph <- empty
+		}
+
 		if r.Op == cmn.EOF {
 			break
 		}
@@ -113,8 +119,8 @@ func output(istream string, in in_comm, end chan<- struct{}) {
 			g, _ := <-in.Graph
 			fmt.Println("Graph", g)
 		case cmn.KMST:
-			g, _ := <-in.Graph
-			fmt.Println("MST", g)
+			<-in.Graph
+			//fmt.Println("MST", g)
 		case cmn.CurrTime:
 			timestamps = append(timestamps, time.Now())
 			fmt.Println("Ellapsed Time Since Last: ", timestamps[len(timestamps)-1].Sub(timestamps[len(timestamps)-2]))

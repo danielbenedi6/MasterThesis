@@ -2,20 +2,21 @@ package common
 
 import (
 	"log"
+	"sort"
 )
 
 type Operation int64
 
 const (
-	Insert  Operation = 1
-	Update            = 2
-	Delete            = 3
-	KMST              = 4
-	EOF               = 5
-	GraphOp           = 6
-	SaveState		  = 7
-	LoadState		  = 8
-	CurrTime		  = 9
+	Insert    Operation = 1
+	Update              = 2
+	Delete              = 3
+	KMST                = 4
+	EOF                 = 5
+	GraphOp             = 6
+	SaveState           = 7
+	LoadState           = 8
+	CurrTime            = 9
 )
 
 type Edge struct {
@@ -24,6 +25,10 @@ type Edge struct {
 }
 
 type Graph []Edge
+
+func (a Graph) Len() int           { return len(a) }
+func (a Graph) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a Graph) Less(i, j int) bool { return a[i].W < a[j].W }
 
 type Request struct {
 	Op Operation
@@ -58,6 +63,7 @@ func (g *Graph) InsertUpdate(e Edge) {
 		}
 	}
 	(*g) = append(*g, e)
+	sort.Sort(*g)
 }
 
 // Generic Functions -----------------------------
