@@ -30,19 +30,8 @@ func Unite(p, q int64, id []int64) {
 
 // Minimum Spanning Tree Functions ------------------------
 
-func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph) cmn.Graph {
-	//sizeG := 0
-	//for _, adje := range root {
-	//	sizeG += len(*adje)
-	//}
-	//localG := make(cmn.Graph, 0, sizeG)
-	//for _, adje := range root {
-	//	localG = append(localG, *adje...)
-	//}
-	//
-	//sort.Slice(localG, func(i, j int) bool {
-	//	return localG[i].W < localG[j].W || (localG[i].W == localG[j].W && localG[i].X < localG[j].X)
-	//})
+func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph, compare cmn.Graph) cmn.Graph, bool {
+	different := false
 	keys := make([]int64, len(root))
 
 	i := 0
@@ -113,9 +102,13 @@ func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph) cmn.Graph {
 			m[e.X] = id[m[e.X]]
 			m[e.Y] = id[m[e.Y]]
 		}
+
+		if !different {
+			different = len(compare) < len(returnMST) || (returnMST)[len(returnMST)-1] != compare[len(returnMST)-1]
+		}
 	}
 
-	return returnMST
+	return different
 }
 
 // Frederickson 85 ------------------------
