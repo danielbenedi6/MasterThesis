@@ -17,14 +17,19 @@ import (
 
 const channelSize = 5000
 
+type Msg struct {
+	Graph   cmn.Graph
+	Updated bool
+}
+
 type in_comm struct {
 	Req   <-chan cmn.Request
-	Graph <-chan cmn.Graph
+	Graph <-chan Msg
 }
 
 type out_comm struct {
 	Req   chan<- cmn.Request
-	Graph chan<- cmn.Graph
+	Graph chan<- Msg
 }
 
 func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
@@ -46,7 +51,7 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 		case x, _ := <-c:
 			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
 			empty := make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 			fmt.Println("Signal ", x, " received. Finishing work!!")
 			finish = true
 			continue
@@ -61,7 +66,7 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 		if err == io.EOF || op == "" {
 			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
 			empty := make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 			fmt.Println("Err := ", err, " Op :=", op)
 			break
 		}
@@ -70,7 +75,7 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 		if err != nil {
 			out.Req <- cmn.Request{Op: cmn.EOF, E: cmn.Edge{X: -1, Y: -1, W: 0}}
 			empty := make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 			break
 		}
 		cmn.CheckError(err)
@@ -100,7 +105,7 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 		out.Req <- r
 		if r.Op == cmn.KMST || r.Op == cmn.GraphOp || r.Op == cmn.EOF || r.Op == cmn.LoadState || r.Op == cmn.SaveState {
 			empty := make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 		}
 
 		if r.Op == cmn.LoadState {
@@ -110,7 +115,7 @@ func input(istream string, out out_comm, Fsize int, inputSync <-chan struct{}) {
 		if r.Op == cmn.Insert || r.Op == cmn.Delete {
 			out.Req <- cmn.Request{Op: cmn.KMST, E: cmn.Edge{X: -1, Y: -1, W: 0}}
 			empty := make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 		}
 
 		if r.Op == cmn.EOF {
@@ -162,7 +167,7 @@ func generator(in in_comm, out out_comm, Fsize int, inputSync chan<- struct{}) {
 		switch r.Op {
 		case cmn.Insert, cmn.Update:
 			out_req := make(chan cmn.Request, channelSize)
-			out_grph := make(chan cmn.Graph, channelSize)
+			out_grph := make(chan Msg, channelSize)
 			new_out := out_comm{Req: out_req, Graph: out_grph}
 			new_in := in_comm{Req: out_req, Graph: out_grph}
 
@@ -198,7 +203,7 @@ func generator(in in_comm, out out_comm, Fsize int, inputSync chan<- struct{}) {
 
 			if filter_count != len(dir)/2 {
 				out_req := make(chan cmn.Request, channelSize)
-				out_grph := make(chan cmn.Graph, channelSize)
+				out_grph := make(chan Msg, channelSize)
 				new_out := out_comm{Req: out_req, Graph: out_grph}
 				new_in := in_comm{Req: out_req, Graph: out_grph}
 
@@ -303,10 +308,12 @@ func filter(id int, in in_comm, out out_comm, r cmn.Request, Fsize int) {
 	close(out.Req)
 }
 
-func filter_worker(id int, in in_comm, out chan<- cmn.Graph, Fsize int) {
+func filter_worker(id int, in in_comm, out chan<- Msg, Fsize int) {
 
 	// Initialize memory
 	root := make(map[int64]*cmn.Graph, Fsize)
+	self_update := false
+	self_mst := make(cmn.Graph, 0)
 
 	for {
 		r, ok := <-in.Req
@@ -321,18 +328,24 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph, Fsize int) {
 			} else {
 				root[r.E.X] = &cmn.Graph{r.E}
 			}
+			self_update = true
 		case cmn.Delete:
 			if _, ok = root[r.E.X]; ok {
 				root[r.E.X].Delete(r.E)
 			}
+			self_update = true
 		case cmn.KMST:
 			g, _ := <-in.Graph
-			g = mst.Kruskal(root, g)
+			if g.Updated || self_update {
+				self_mst, g.Updated = mst.Kruskal(root, g.Graph, self_mst)
+				self_update = false
+			}
+			g.Graph = self_mst
 			out <- g
 		case cmn.GraphOp:
 			g, _ := <-in.Graph
 			for _, adje := range root {
-				g = append(g, *adje...)
+				g.Graph = append(g.Graph, *adje...)
 			}
 
 			out <- g
@@ -372,7 +385,7 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph, Fsize int) {
 			out <- g
 		case cmn.EOF:
 			<-in.Graph
-			out <- cmn.Graph{}
+			out <- Msg{cmn.Graph{}, false}
 			break
 		}
 	}
@@ -383,12 +396,12 @@ func filter_worker(id int, in in_comm, out chan<- cmn.Graph, Fsize int) {
 func Start(istream string, Fsize int) {
 
 	file_req := make(chan cmn.Request, channelSize)
-	file_grph := make(chan cmn.Graph, channelSize)
+	file_grph := make(chan Msg, channelSize)
 	file_gen := out_comm{Req: file_req, Graph: file_grph}
 	gen := in_comm{Req: file_req, Graph: file_grph}
 
 	gen_req := make(chan cmn.Request, channelSize)
-	gen_grph := make(chan cmn.Graph, channelSize)
+	gen_grph := make(chan Msg, channelSize)
 	gen_out := out_comm{Req: gen_req, Graph: gen_grph}
 	out := in_comm{Req: gen_req, Graph: gen_grph}
 
@@ -415,12 +428,12 @@ func RandomStart(Fsize int, Nmin, Nmax, Ndelta, Ngraph, Nrep int64, Dmin, Dmax, 
 				var seed int64 = rand.Int63()
 				for j := Nrep; j > 0; j-- {
 					input_req := make(chan cmn.Request, channelSize)
-					input_grph := make(chan cmn.Graph, channelSize)
+					input_grph := make(chan Msg, channelSize)
 					input_chan := out_comm{Req: input_req, Graph: input_grph}
 					data_chan := in_comm{Req: input_req, Graph: input_grph}
 
 					gen_req := make(chan cmn.Request, channelSize)
-					gen_grph := make(chan cmn.Graph, channelSize)
+					gen_grph := make(chan Msg, channelSize)
 					gen_out := out_comm{Req: gen_req, Graph: gen_grph}
 					out := in_comm{Req: gen_req, Graph: gen_grph}
 
