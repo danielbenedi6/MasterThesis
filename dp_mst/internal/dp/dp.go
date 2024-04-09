@@ -314,6 +314,7 @@ func filter_worker(id int, in in_comm, out chan<- Msg, Fsize int) {
 	root := make(map[int64]*cmn.Graph, Fsize)
 	self_update := false
 	self_mst := make(cmn.Graph, 0)
+	returnMST := make(cmn.Graph, 0, 50000)
 
 	for {
 		r, ok := <-in.Req
@@ -337,7 +338,8 @@ func filter_worker(id int, in in_comm, out chan<- Msg, Fsize int) {
 		case cmn.KMST:
 			g, _ := <-in.Graph
 			if g.Updated || self_update {
-				self_mst, g.Updated = mst.Kruskal(root, g.Graph, self_mst)
+				g.Updated = mst.Kruskal(root, g.Graph, self_mst, &returnMST)
+				self_mst = returnMST
 				self_update = false
 			}
 			g.Graph = self_mst
