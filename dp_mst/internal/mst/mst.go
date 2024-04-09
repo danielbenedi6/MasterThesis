@@ -30,7 +30,7 @@ func Unite(p, q int64, id []int64) {
 
 // Minimum Spanning Tree Functions ------------------------
 
-func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph, compare cmn.Graph) cmn.Graph, bool {
+func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph, compare cmn.Graph, returnMST *cmn.Graph) bool {
 	different := false
 	keys := make([]int64, len(root))
 
@@ -44,7 +44,7 @@ func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph, compare cmn.Graph) cmn.Gr
 	var id []int64
 	var cc int64
 	cc = 0
-	returnMST := make(cmn.Graph, 0, 50000)
+	*returnMST = (*returnMST)[:0]
 
 	ids := make([]int, len(root)+1)
 
@@ -81,7 +81,7 @@ func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph, compare cmn.Graph) cmn.Gr
 		_, ok2 := m[e.Y]
 
 		if !ok1 || !ok2 { // If one of the vertices is not, add the edge
-			returnMST = append(returnMST, e)
+			*returnMST = append(*returnMST, e)
 			if !ok1 {
 				m[e.X] = cc
 				id = append(id, cc)
@@ -97,14 +97,14 @@ func Kruskal(root map[int64]*cmn.Graph, mst cmn.Graph, compare cmn.Graph) cmn.Gr
 			m[e.X] = id[m[e.X]]
 			m[e.Y] = id[m[e.Y]]
 		} else if father(m[e.X], id) != father(m[e.Y], id) {
-			returnMST = append(returnMST, e)
+			*returnMST = append(*returnMST, e)
 			unite(m[e.X], m[e.Y], id)
 			m[e.X] = id[m[e.X]]
 			m[e.Y] = id[m[e.Y]]
 		}
 
 		if !different {
-			different = len(compare) < len(returnMST) || (returnMST)[len(returnMST)-1] != compare[len(returnMST)-1]
+			different = len(compare) < len(*returnMST) || (*returnMST)[len(*returnMST)-1] != compare[len(*returnMST)-1]
 		}
 	}
 

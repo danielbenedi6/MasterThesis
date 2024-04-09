@@ -35,7 +35,9 @@ func TestKruskal(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Kruskal(tt.args.root, tt.args.mst); !reflect.DeepEqual(got, tt.want) {
+			got := make(cmn.Graph, 0)
+			Kruskal(tt.args.root, tt.args.mst, cmn.Graph{}, &got)
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Kruskal() = %v, want %v", got, tt.want)
 			}
 		})

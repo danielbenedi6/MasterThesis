@@ -18,13 +18,13 @@ func ErdosRenyi(probMST float64, probEdge float64, N int64, seed int64, out out_
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
 			out.Req <- r
 			empty := make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 
 			r.Op = cmn.GraphOp
 			r.E = cmn.Edge{X: -1, Y: -1, W: 0}
 			out.Req <- r
 			empty = make(cmn.Graph, 0)
-			out.Graph <- empty
+			out.Graph <- Msg{empty, false}
 		} else {
 			if probEdge < random.Float64() {
 				r.Op = cmn.Insert
@@ -44,5 +44,5 @@ func ErdosRenyi(probMST float64, probEdge float64, N int64, seed int64, out out_
 	r.E = cmn.Edge{X: -1, Y: -1, W: 0}
 	out.Req <- r
 	empty := make(cmn.Graph, 0)
-	out.Graph <- empty
+	out.Graph <- Msg{empty, false}
 }
