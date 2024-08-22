@@ -1,0 +1,114 @@
+
+\begin{frame}{Preliminaries: Dynamic Graphs}
+\begin{columns}
+    \column{0.4\textwidth}
+    \centering
+    \uncover<4->{At the beginning:}\\
+    \resizebox{\textwidth}{!}{%
+        \begin{tikzpicture}
+            \begin{pgfonlayer}{nodelayer}
+                \node [style=new style 0, visible on=<1->] (0) at (-4, 2.65) {a};
+                \node [style=new style 0, visible on=<1->] (1) at (-4, 0) {b};
+                \node [style=new style 0, visible on=<1->] (2) at (-1, 2.65) {c};
+                \node [style=new style 0, visible on=<1->] (3) at (-1, -2.65) {d};
+                \node [style=new style 0, visible on=<1->] (4) at (-7, 2.65) {e};
+                \node [style=new style 0, visible on=<1->] (5) at (-7, -2.65) {f};
+                \node [style=new style 0, visible on=<1->] (6) at (-4, -2.65) {g};
+            \end{pgfonlayer}
+            \begin{pgfonlayer}{edgelayer}
+                \draw [style={tree_edge}, visible on=<2>] (0) to (1);
+                \draw [style={tree_edge}, visible on=<2>] (1) to (2);
+                \draw [style={tree_edge}, visible on=<2>] (2) to (0);
+                \draw [style={tree_edge}, visible on=<2>] (2) to (3);
+                \draw [style={tree_edge}, visible on=<2>] (0) to (4);
+                \draw [style={tree_edge}, visible on=<2>] (1) to (5);
+                \draw [style={tree_edge}, visible on=<2>] (5) to (6);
+                \draw [style={tree_edge}, visible on=<2>] (1) to (6);
+                \draw [style={tree_edge}, visible on=<3->] (0) to["1"] (1);
+                \draw [style={tree_edge}, visible on=<3->] (1) to["0.3"] (2);
+                \draw [style={tree_edge}, visible on=<3->] (2) to["2.5"] (0);
+                \draw [style={tree_edge}, visible on=<3->] (2) to["10"] (3);
+                \draw [style={tree_edge}, visible on=<3->] (0) to["2"] (4);
+                \draw [style={tree_edge}, visible on=<3->] (1) to["1.5"] (5);
+                \draw [style={tree_edge}, visible on=<3->] (5) to["5.57"] (6);
+                \draw [style={tree_edge}, visible on=<3->] (1) to["0.05"] (6);
+            \end{pgfonlayer}
+        \end{tikzpicture}
+    }
+    \column{0.3\textwidth}
+    
+    \scalebox{0.8}{\begin{minipage}{1.20\textwidth}
+        \begin{itemize}
+            \item<4-> Initial Graph
+            \item<5-> \alt<5>{\textcolor{blue}{\texttt{INSERT,b,e,0.08}}}{\texttt{INSERT,b,e,0.08}}
+            \item<5-> \alt<5>{\textcolor{blue}{\texttt{INSERT,a,d,5}}}{\texttt{INSERT,a,d,5}}
+            \item<5-> \alt<5>{\textcolor{blue}{\texttt{INSERT,d,g,2.6}}}{\texttt{INSERT,d,g,2.6}}
+            \item<5-> \alt<5>{\textcolor{red}{\texttt{DELETE,a,b}}}{\texttt{DELETE,a,b}}
+            \item<6-> \alt<6>{\textcolor{red}{\texttt{DELETE,c,d}}}{\texttt{DELETE,c,d}}
+            \item<6-> \alt<6>{\textcolor{blue}{\texttt{INSERT,a,b,1}}}{\texttt{INSERT,a,b,1}}
+            \item<7-> \alt<7>{\textcolor{magenta}{\texttt{UPDATE,f,g,4.42}}}{\texttt{UPDATE,f,g,4.42}}
+            \item<7-> \alt<7>{\textcolor{magenta}{\texttt{UPDATE,b,e,2.85}}}{\texttt{UPDATE,b,e,2.85}}
+        \end{itemize}
+    \end{minipage}}
+    \column{0.4\textwidth}
+    \centering
+    \visible<4->{With the operations:}
+    \resizebox{\textwidth}{!}{%
+        \begin{tikzpicture}
+            \begin{pgfonlayer}{nodelayer}
+                \node [style=new style 0, visible on=<4->] (0) at (-4, 2.65) {a};
+                \node [style=new style 0, visible on=<4->] (1) at (-4, 0) {b};
+                \node [style=new style 0, visible on=<4->] (2) at (-1, 2.65) {c};
+                \node [style=new style 0, visible on=<4->] (3) at (-1, -2.65) {d};
+                \node [style=new style 0, visible on=<4->] (4) at (-7, 2.65) {e};
+                \node [style=new style 0, visible on=<4->] (5) at (-7, -2.65) {f};
+                \node [style=new style 0, visible on=<4->] (6) at (-4, -2.65) {g};
+            \end{pgfonlayer}
+            \begin{pgfonlayer}{edgelayer}
+                \draw [style={tree_edge},visible on=<4-5>,alt=<5>{red, dashed}{black}] (0) to["1"] (1);
+                \draw [style={tree_edge},visible on=<6->,alt=<6>{blue}{black}] (0) to["1"] (1);
+                \draw [style={tree_edge}, visible on=<4->] (1) to["0.3"] (2);
+                \draw [style={tree_edge}, visible on=<4->] (2) to["2.5"] (0);
+                \draw [style={tree_edge},visible on=<4-6>,alt=<6>{red, dashed}{black}] (2) to["10"] (3);
+                \draw [style={tree_edge}, visible on=<4->] (0) to["2"] (4);
+                \draw [style={tree_edge}, visible on=<4->] (1) to["1.5"] (5);
+                \draw [style={tree_edge},visible on=<4-6>] (5) to["5.57"] (6);
+                \draw [style={tree_edge},visible on=<7->, alt=<7>{magenta}{black}] (5) to["4.42"] (6);
+                \draw [style={tree_edge}, visible on=<4->] (1) to["0.05"] (6);
+                \draw [style={tree_edge},visible on=<5-6>,alt=<5>{blue}{black}] (4) to["0.08"] (1);
+                \draw [style={tree_edge},visible on=<7->,alt=<7>{magenta}{black}] (4) to["2.85"] (1);
+                \draw [style={tree_edge},visible on=<5->,alt=<5>{blue}{black}] (0) to["5"] (3);
+                \draw [style={tree_edge},visible on=<5->,alt=<5>{blue}{black}] (6) to["2.6"] (3);
+            \end{pgfonlayer}
+        \end{tikzpicture}
+    }
+\end{columns}
+\end{frame}
+
+\begin{frame}{Preliminaries: Minimum Spanning Forest}
+    \begin{definition}
+        A \emph{spanning tree $T$ of a graph $G$} is a subgraph that is a tree and includes all the vertices of $G$.
+    \end{definition}
+    
+    \begin{figure}[!h]
+        \centering
+        \begin{subfigure}{0.48\linewidth}
+            \scalebox{0.75}{
+                \input{figures/graph_example.tikz}
+            }
+        \end{subfigure}
+        \begin{subfigure}{0.48\linewidth}
+            \scalebox{0.75}{
+                \input{figures/spanning_example.tikz}
+            }
+        \end{subfigure}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Preliminaries: Motivation} \justifying
+    There are many theoretical and experimental results. Cattaneo et al. (2002) showed that simpler algorithm are faster in practice than those with better asymptotically behaviour. Those results used small graphs due to limitations of the date.
+    
+    \textcolor{white}{Here goes some text}
+    
+    Almost no algorithms for maintaining dynamic \msts\ on concurrent or parallel set-ups. Up to our knowledge, only one with batch updates in MapReduce.
+\end{frame}

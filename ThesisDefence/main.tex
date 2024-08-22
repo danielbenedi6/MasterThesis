@@ -1,0 +1,59 @@
+\documentclass{beamer}
+
+\input{settings}
+
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Dyn. MST on Dynamic Pipeline] %optional
+{Maintaining the Minimum Spanning Forest of Fully Dynamic Graphs on the Dynamic Pipeline Approach}
+
+\author[D. Benedí] % (optional)
+{Daniel Benedí}
+
+\institute[UPC] % (optional)
+{
+  Facultat d'Informàtica de Barcelona\\
+  Universitat Politècnica de Catalunya
+}
+
+\date[\monthyeardate\today] % (optional)
+{\monthyeardate\today}
+
+\logo{\includegraphics[height=0.75cm]{UPC.png}}
+
+
+%End of title page configuration block
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+\begin{frame}{Overview}
+    \tableofcontents
+\end{frame}
+
+
+%---------------------------------------------------------
+
+
+
+
+%---------------------------------------------------------
+%Changing visivility of the text
+
+\section{Preliminaries}
+\input{sections/preliminaries}
+
+\section{Graphs and \msts\ in \dpm}
+\input{sections/dp_kruskal}
+
+\section{Experimental Study}
+\input{sections/experimental}
+
+\section{Conclusion \& Future Work}
+\input{sections/conclusion}
+
+\end{document}

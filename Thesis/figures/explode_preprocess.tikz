@@ -1,0 +1,61 @@
+\begin{tikzpicture}
+    \node[shape=circle,draw=black, fill = blue!30] (center) at (0,0) {$v$};
+    
+    % Define the radius of the pentagon
+    \def\radius{3}
+    \def\N{5}
+
+    % Utils:
+    \pgfmathtruncatemacro{\polystep}{360 / \N}
+    \pgfmathtruncatemacro{\range}{\N - 1}
+    
+    % Define the coordinates for the pentagon vertices
+    \foreach \i in {0,...,\range}
+    {
+        \node (v\i) at ({\radius*cos(90+\i*\polystep)},{\radius*sin(90+\i*\polystep)}) {};
+    }
+
+    % Connect with the center
+    \foreach \i in {0,...,\range}
+    {
+        \pgfmathtruncatemacro{\weight}{\i + 1}
+          \draw[-, draw=black] (center) to["\weight"] (v\i);
+    }
+\end{tikzpicture}
+\begin{tikzpicture}
+    
+    % Define the radius of the pentagon
+    \def\radius{1.5}
+    \def\N{5}
+
+    % Utils:
+    \pgfmathtruncatemacro{\polystep}{360 / \N}
+    \pgfmathtruncatemacro{\range}{\N - 1}
+    
+    % Define the coordinates for the pentagon vertices
+    \foreach \i in {0,...,\range}
+    {
+        \node[shape=circle,draw=black, fill = blue!30] (v\i) at ({\radius*cos(90+\i*\polystep)},{\radius*sin(90+\i*\polystep)}) {$v_\i$};
+    }
+    
+    % Define the coordinates for the external vertices
+    \foreach \i in {0,...,\range}
+    {
+        \node (w\i) at ({2*\radius*cos(90+\i*\polystep)},{2*\radius*sin(90+\i*\polystep)}) {};
+    }
+
+    % Connect to external
+    \foreach \i in {0,...,\range}
+    {
+        \pgfmathtruncatemacro{\weight}{\i + 1}
+          \draw[-, draw=black] (v\i) to["\weight"] (w\i);
+    }
+
+    % Connect in ring
+    \foreach \i in {0,...,\range}
+    {
+        \pgfmathtruncatemacro{\iplusone}{mod(\i + 1, \N) }
+          \draw[-, draw=black] (v\i) to["0"] (v\iplusone);
+    }
+
+\end{tikzpicture}

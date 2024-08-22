@@ -1,0 +1,32 @@
+\documentclass[12pt, openany]{book}
+
+\input{settings.tex}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\include{sections/0-pre-content}
+
+\pagenumbering{arabic}
+
+\chapter{Introduction \label{chap:intro}}
+\input{sections/1-introduction}
+\chapter{Preliminaries \label{chap:preliminaries}}
+\input{sections/2-preliminaries}
+\chapter{Graphs and \msts\ in the \dpm\ \label{chap:dpmst}}
+\input{sections/3-NEW_dp}
+\chapter{Experimental Study \label{chap:experiments}}
+\input{sections/4-experimental}
+\chapter{Conclusions and Future Work\label{chap:conclusion}}
+\input{sections/6-conclusion}
+
+\newpage
+\addcontentsline{toc}{chapter}{References}
+\printbibliography
+
+\newpage
+
+\include{sections/appendices}
+
+\end{document}

@@ -1,0 +1,798 @@
+@inproceedings{Amato1997,
+author = {Amato, Giuseppe and Cattaneo, Giuseppe and Italiano, Giuseppe F.},
+title = {Experimental Analysis of Dynamic Minimum Spanning Tree Algorithms},
+year = {1997},
+isbn = {0898713900},
+publisher = {Society for Industrial and Applied Mathematics},
+address = {USA},
+booktitle = {Proceedings of the Eighth Annual ACM-SIAM Symposium on Discrete Algorithms},
+pages = {314–323},
+numpages = {10},
+location = {New Orleans, Louisiana, USA},
+series = {SODA '97}
+}
+
+@article{Frederickson1985,
+author = {Frederickson, Greg N.},
+title = {Data Structures for On-Line Updating of Minimum Spanning Trees, with Applications},
+journal = {SIAM Journal on Computing},
+volume = {14},
+number = {4},
+pages = {781-798},
+year = {1985},
+doi = {10.1137/0214055},
+URL = { https://doi.org/10.1137/0214055 },
+eprint = { https://doi.org/10.1137/0214055 },
+abstract = { Data structures are presented for the problem of maintaining a minimum spanning tree on-line under the operation of updating the cost of some edge in the graph. For the case of a general graph, maintaining the data structure and updating the tree are shown to take \$O(\sqrt m )\$ time, where m is the number of edges in the graph. For the case of a planar graph, a data structure is presented which supports an update time of \$O((\log m)^2 )\$. These structures contribute to improved solutions for the on-line connected components problem and the problem of generating the K smallest spanning trees. }
+}
+
+@article{Sleator1983,
+title = {A data structure for dynamic trees},
+journal = {Journal of Computer and System Sciences},
+volume = {26},
+number = {3},
+pages = {362-391},
+year = {1983},
+issn = {0022-0000},
+doi = {https://doi.org/10.1016/0022-0000(83)90006-5},
+url = {https://www.sciencedirect.com/science/article/pii/0022000083900065},
+author = {Daniel D. Sleator and Robert {Endre Tarjan}},
+abstract = {A data structure is proposed to maintain a collection of vertex-disjoint trees under a sequence of two kinds of operations: a link operation that combines two trees into one by adding an edge, and a cut operation that divides one tree into two by deleting an edge. Each operation requires O(log n) time. Using this data structure, new fast algorithms are obtained for the following problems: 1.(1) Computing nearest common ancestors.2.(2) Solving various network flow problems including finding maximum flows, blocking flows, and acyclic flows.3.(3) Computing certain kinds of constrained minimum spanning trees.4.(4) Implementing the network simplex algorithm for minimum-cost flows. The most significant application is (2); an O(mn log n)-time algorithm is obtained to find a maximum flow in a network of n vertices and m edges, beating by a factor of log n the fastest algorithm previously known for sparse graphs.}
+}
+
+@InProceedings{Cataneo2002,
+author="Cattaneo, Giuseppe
+and Faruolo, Pompeo
+and Petrillo, Umberto Ferraro
+and Italiano, Giuseppe F.",
+editor="Mount, David M.
+and Stein, Clifford",
+title="Maintaining Dynamic Minimum Spanning Trees: An Experimental Study",
+booktitle="Algorithm Engineering and Experiments",
+year="2002",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="111--125",
+abstract="We report our findings on an extensive empirical study on several algorithms for maintaining minimum spanning trees in dynamic graphs. In particular, we have implemented and tested a variant of the polylogarithmic algorithm by Holm et al., sparsification on top of Frederickson's algorithm, and compared them to other (less sophisticated) dynamic algorithms. In our experiments, we considered as test sets several random, semi-random and worst-case inputs previously considered in the literature.",
+isbn="978-3-540-45643-8"
+}
+
+@article{Iyer2001,
+author = {Iyer, Raj and Karger, David and Rahul, Hariharan and Thorup, Mikkel},
+title = {An Experimental Study of Polylogarithmic, Fully Dynamic, Connectivity Algorithms},
+year = {2002},
+issue_date = {2001},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {6},
+issn = {1084-6654},
+url = {https://doi.org/10.1145/945394.945398},
+doi = {10.1145/945394.945398},
+abstract = {We present an experimental study of different variants of the amortized O(log2 n)-time fully-dynamic connectivity algorithm of Holm, de Lichtenberg, and Thorup (STOC'98). The experiments build upon experiments provided by Alberts, Cattaneo, and Italiano (SODA'96) on the randomized amortized O(log3 n) fully-dynamic connectivity algorithm of Henzinger and King (STOC'95). Our experiments shed light upon similarities and differences between the two algorithms. We also present a slightly modified version of the Henzinger-King algorithm that runs in O(log2 n) time, which resulted from our experiments.},
+journal = {ACM J. Exp. Algorithmics},
+month = dec,
+pages = {4–es},
+numpages = {30}
+}
+
+@InProceedings{Ribeiro2007,
+author="Ribeiro, Celso C.
+and Toso, Rodrigo F.",
+editor="Demetrescu, Camil",
+title="Experimental Analysis of Algorithms for Updating Minimum Spanning Trees on Graphs Subject to Changes on Edge Weights",
+booktitle="Experimental Algorithms",
+year="2007",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="393--405",
+abstract="We consider the problem of maintaining a minimum spanning tree of a dynamically changing graph, subject to changes on edge weights. We propose an on-line fully-dynamic algorithm that runs in time O(|E|) when the easy-to-implement DRD-trees data structure for dynamic trees is used. Numerical experiments illustrate the efficiency of the approach.",
+isbn="978-3-540-72845-0"
+}
+
+@article{Hanauer2022,
+author = {Hanauer, Kathrin and Henzinger, Monika and Schulz, Christian},
+title = {Recent Advances in Fully Dynamic Graph Algorithms – A Quick Reference Guide},
+year = {2022},
+issue_date = {December 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {27},
+issn = {1084-6654},
+url = {https://doi-org.recursos.biblioteca.upc.edu/10.1145/3555806},
+doi = {10.1145/3555806},
+abstract = {In recent years, significant advances have been made in the design and analysis of fully dynamic algorithms. However, these theoretical results have received very little attention from the practical perspective. Few of the algorithms are implemented and tested on real datasets, and their practical potential is far from understood. Here, we present a quick reference guide to recent engineering and theory results in the area of fully dynamic graph algorithms.},
+journal = {ACM J. Exp. Algorithmics},
+month = Dec,
+articleno = {1.11},
+numpages = {45},
+keywords = {Dynamic algorithms, graph algorithms}
+}
+
+@inproceedings{bernstein2008chacha,
+  title={ChaCha, a variant of Salsa20},
+  author={Bernstein, Daniel J and others},
+  booktitle={Workshop record of SASC},
+  volume={8},
+  number={1},
+  pages={3--5},
+  year={2008},
+  organization={Citeseer}
+}
+
+@article{sakr2021futureIsBigGraphs,
+  title={The future is big graphs: a community view on graph processing systems},
+  author={Sakr, Sherif and Bonifati, Angela and Voigt, Hannes and Iosup, Alexandru and Ammar, Khaled and Angles, Renzo and Aref, Walid and Arenas, Marcelo and Besta, Maciej and Boncz, Peter A and others},
+  journal={Communications of the ACM},
+  volume={64},
+  number={9},
+  pages={62--71},
+  year={2021},
+  publisher={ACM New York, NY, USA}
+}
+
+@ARTICLE{IEEE8021Q,
+  author={},
+  journal={IEEE Std 802.1Q-2022 (Revision of IEEE Std 802.1Q-2018)}, 
+  title={IEEE Standard for Local and Metropolitan Area Networks--Bridges and Bridged Networks}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-2163},
+  keywords={IEEE Standards;Local area networks;Metropolitan area networks;Bridge circuits;Media Access Protocol;Bridged Network;IEEE 802.1Q;LAN;local area network;MAC Bridge;metropolitan area network;MSTP;Multiple Spanning Tree Protocol;Rapid Spanning Tree Protocol;RSTP;PBN;Provider Bridged Network;Shortest Path Bridging Protocol;SPB Protocol;Time-Sensitive Networking;TSN;Virtual Bridged Network;virtual LAN;VLAN Bridge},
+  doi={10.1109/IEEESTD.2022.10004498}}
+
+@inproceedings{AffinityClustering,
+author = {Bateni, Mohammad Hossein and Behnezhad, Soheil and Derakhshan, Mahsa and Hajiaghayi, Mohammad Taghi and Kiveris, Raimondas and Lattanzi, Silvio and Mirrokni, Vahab},
+title = {Affinity clustering: hierarchical clustering at scale},
+year = {2017},
+isbn = {9781510860964},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {Graph clustering is a fundamental task in many data-mining and machine-learning pipelines. In particular, identifying a good hierarchical structure is at the same time a fundamental and challenging problem for several applications. The amount of data to analyze is increasing at an astonishing rate each day. Hence there is a need for new solutions to efficiently compute effective hierarchical clusterings on such huge data.The main focus of this paper is on minimum spanning tree (MST) based clusterings. In particular, we propose affinity, a novel hierarchical clustering based on Bor\r{u}vka's MST algorithm. We prove certain theoretical guarantees for affinity (as well as some other classic algorithms) and show that in practice it is superior to several other state-of-the-art clustering algorithms.Furthermore, we present two MapReduce implementations for affinity. The first one works for the case where the input graph is dense and takes constant rounds. It is based on a Massively Parallel MST algorithm for dense graphs that improves upon the state-of-the-art algorithm of Lattanzi et al. [34]. Our second algorithm has no assumption on the density of the input graph and finds the affinity clustering in O(log n) rounds using Distributed Hash Tables (DHTs). We show experimentally that our algorithms are scalable for huge data sets, e.g., for graphs with trillions of edges.},
+booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+pages = {6867–6877},
+numpages = {11},
+location = {Long Beach, California, USA},
+series = {NIPS'17}
+}
+@article{KHAN20221113,
+title = {A fast spectral clustering technique using MST based proximity graph for diversified datasets},
+journal = {Information Sciences},
+volume = {609},
+pages = {1113-1131},
+year = {2022},
+issn = {0020-0255},
+doi = {https://doi.org/10.1016/j.ins.2022.07.101},
+url = {https://www.sciencedirect.com/science/article/pii/S0020025522007903},
+author = {Abdul Atif Khan and Sraban Kumar Mohanty},
+keywords = {Sparse similarity graph, Spectral clustering, Graph clustering, Local neighbourhood graph, Structural similarity},
+abstract = {Spectral clustering is a popular unsupervised learning technique used for exploratory analysis of complex datasets. In spectral clustering, the efficient construction of a sparse similarity graph is one of the primary concerns because it influences both the clustering performance as well as the computational time. The sparser the similarity graph, the faster the computation of the eigenvectors, thus improving the overall clustering time. In this paper, we propose a parameter-free method to construct a sparse proximity graph based on the intrinsic structural information of the data points. The proposed method first divides the data into several partitions and then determines the pairs of neighboring partitions using the representative points of each partition. We propose a method called inter-partition MST (IPM) to capture the local proximity information of a neighboring pair. The size of the proposed graph is O(N), where N is the number of data points. For clustering, we apply multi-way spectral clustering on the proposed sparse similarity graph. Experimental analyses demonstrate that in terms of cluster quality, computational time and sparsity of the graph, the proposed algorithm outperforms the other spectral clustering methods.}
+}
+
+@article{LONG2020165308,
+title = {Image segmentation based on the minimum spanning tree with a novel weight},
+journal = {Optik},
+volume = {221},
+pages = {165308},
+year = {2020},
+issn = {0030-4026},
+doi = {https://doi.org/10.1016/j.ijleo.2020.165308},
+url = {https://www.sciencedirect.com/science/article/pii/S003040262031144X},
+author = {Xiaodong Long and Jian Sun},
+keywords = {, Graph theoretical methods, Minimum spanning tree},
+abstract = {Image segmentation is a foundation for the image understanding and advanced application. However, the ill-posedness of image segmentation is a main challenge. To tackle this challenge, this paper proposes a novel minimum spanning tree (MST) based image segmentation algorithm. In the algorithm, we suggest a difference formula of RGB with respect to angular distance color as the weight of judge standard of the segmentation. To improve the stability and applicability of the segmentation, the judge standard not only considers the different sensitivities of the human eyes in regard to the variations of RGB values, but also involves the spatial distance and vector relationship between two pixels. The experiment verified the effectiveness of our proposed MST based image segmentation algorithm, the advantage of the algorithm was also illustrated by comparisons.}
+}
+
+@InProceedings{Wassenberg2009,
+author="Wassenberg, Jan
+and Middelmann, Wolfgang
+and Sanders, Peter",
+editor="Jiang, Xiaoyi
+and Petkov, Nicolai",
+title="An Efficient Parallel Algorithm for Graph-Based Image Segmentation",
+booktitle="Computer Analysis of Images and Patterns",
+year="2009",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="1003--1010",
+abstract="Automatically partitioning images into regions (`segmentation') is challenging in terms of quality and performance. We propose a Minimum Spanning Tree-based algorithm with a novel graph-cutting heuristic, the usefulness of which is demonstrated by promising results obtained on standard images. In contrast to data-parallel schemes that divide images into independently processed tiles, the algorithm is designed to allow parallelisation without truncating objects at tile boundaries. A fast parallel implementation for shared-memory machines is shown to significantly outperform existing algorithms. It utilises a new microarchitecture-aware single-pass sort algorithm that is likely to be of independent interest.",
+isbn="978-3-642-03767-2"
+}
+
+@ARTICLE{Li2005,
+  author={Ning Li and Hou, J.C. and Sha, L.},
+  journal={IEEE Transactions on Wireless Communications}, 
+  title={Design and analysis of an MST-based topology control algorithm}, 
+  year={2005},
+  volume={4},
+  number={3},
+  pages={1195-1206},
+  keywords={Algorithm design and analysis;Network topology;Spread spectrum communication;Energy consumption;Wireless sensor networks;Communication system control;Clustering algorithms;Mobile ad hoc networks;Capacitive sensors;Collaboration;Graph theory;spatial reuse;topology control},
+  doi={10.1109/TWC.2005.846971}}
+
+@ARTICLE{Prim1957,
+  author={Prim, R. C.},
+  journal={The Bell System Technical Journal}, 
+  title={Shortest connection networks and some generalizations}, 
+  year={1957},
+  volume={36},
+  number={6},
+  pages={1389-1401},
+  keywords={},
+  doi={10.1002/j.1538-7305.1957.tb01515.x}}
+
+@article{Kruskal1956,
+  title = {On the shortest spanning subtree of a graph and the traveling salesman problem},
+  volume = {7},
+  ISSN = {1088-6826},
+  url = {http://dx.doi.org/10.1090/S0002-9939-1956-0078686-7},
+  DOI = {10.1090/s0002-9939-1956-0078686-7},
+  number = {1},
+  journal = {Proceedings of the American Mathematical Society},
+  publisher = {American Mathematical Society (AMS)},
+  author = {Kruskal,  Joseph B.},
+  year = {1956},
+  pages = {48–50}
+}
+
+@article{Boruvka1926,
+  title={O jist{\'e}m probl{\'e}mu minim{\'a}ln{\'\i}m},
+  author={Bor\r{u}vka, Otakar},
+  year={1926}
+}
+
+@article{Holm2001,
+  title={Poly-logarithmic deterministic fully-dynamic algorithms for connectivity, minimum spanning tree, 2-edge, and biconnectivity},
+  author={Holm, Jacob and De Lichtenberg, Kristian and Thorup, Mikkel},
+  journal={Journal of the ACM (JACM)},
+  volume={48},
+  number={4},
+  pages={723--760},
+  year={2001},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{Patrascu2006,
+  title={Logarithmic Lower Bounds in the Cell-Probe Model},
+  author={Mihai Patrascu and Erik D. Demaine},
+  journal={SIAM Journal of Computing},
+  volume = {35},
+  number = {4},
+  pages={932--963},
+  year={2006}
+}
+
+@inproceedings{holmetal2015,
+  title={Faster Fully dynamic Minnimum Spanning Forest},
+  author={Jacob Holm and Eva Rotemberg and Christian Wulff-Nilsen},
+  booktitle={In Algorithms - ESA 2015 - 23rd Annual European Symposium, Patras Greece, September 14--16 2015, Proceedings (Lecture Notes in Computer Science Vol. 9294), Nikhil Bansal and Irene Finocchi (Eds.)},
+  pages={742--753},
+  year={2015},
+  editor  = {Springer},
+}
+@article{eppstein1999dynamicGraphAlgorithms,
+  title={Dynamic graph algorithms},
+  author={Eppstein, David and Galil, Zvi and Italiano, Giuseppe F},
+  journal={Algorithms and theory of computation handbook},
+  volume={1},
+  pages={9--1},
+  year={1999},
+  publisher={Citeseer}
+}
+%
+@article{eppstein1997sparsification,
+  title={Sparsification --a technique for speeding up dynamic graph algorithms},
+  author={Eppstein, David and Galil, Zvi and Italiano, Giuseppe F and Nissenzweig, Amnon},
+  journal={Journal of the ACM (JACM)},
+  volume={44},
+  number={5},
+  pages={669--696},
+  year={1997},
+  publisher={ACM New York, NY, USA}
+}
+%
+@article{eppstein1998separator,
+  title={Separator-based sparsification II: Edge and vertex connectivity},
+  author={Eppstein, David and Galil, Zvi and Italiano, Giuseppe F and Spencer, Thomas H},
+  journal={SIAM Journal on Computing},
+  volume={28},
+  number={1},
+  pages={341--381},
+  year={1998},
+  publisher={SIAM}
+}
+%
+@article{eppstein1992maintenance,
+  title={Maintenance of a minimum spanning forest in a dynamic plane graph},
+  author={Eppstein, David and Italiano, Giuseppe F and Tamassia, Roberto and Tarjan, Robert E and Westbrook, Jeffery and Yung, Moti},
+  journal={Journal of Algorithms},
+  volume={13},
+  number={1},
+  pages={33--54},
+  year={1992},
+  publisher={Elsevier}
+}
+
+@article{frederickson1997ambivalent,
+  title={Ambivalent data structures for dynamic 2-edge-connectivity and k smallest spanning trees},
+  author={Frederickson, Greg N},
+  journal={SIAM Journal on Computing},
+  volume={26},
+  number={2},
+  pages={484--538},
+  year={1997},
+  publisher={SIAM}
+}
+
+@article{cattaneo2010,
+  title={Maintaining dynamic minimum spanning trees: An experimental study},
+  author={Cattaneo, Giuseppe and Faruolo, Pompeo and Petrillo, U Ferraro and Italiano, Giuseppe F},
+  journal={Discrete Applied Mathematics},
+  volume={158},
+  number={5},
+  pages={404--425},
+  year={2010},
+  publisher={Elsevier}
+}%
+@article{bader2006fast,
+  title={Fast shared-memory algorithms for computing the minimum spanning forest of sparse graphs},
+  author={Bader, David A and Cong, Guojing},
+  journal={Journal of Parallel and Distributed Computing},
+  volume={66},
+  number={11},
+  pages={1366--1378},
+  year={2006},
+  publisher={Elsevier}
+}
+%
+@inproceedings{chung1996parallel,
+  title={Parallel implementation of {B}or\r{u}vka's minimum spanning tree algorithm},
+  author={Chung, Sun and Condon, Anne},
+  booktitle={Proceedings of International Conference on Parallel Processing},
+  pages={302--308},
+  year={1996},
+  organization={IEEE}
+}
+%
+@article{pandurangan2018distributed,
+  title={The distributed minimum spanning tree problem},
+  author={Pandurangan, Gopal and Robinson, Peter and Scquizzato, Michele and others},
+  journal={Bulletin of EATCS},
+  volume={2},
+  number={125},
+  year={2018}
+}
+%
+@inproceedings{burkhardt2015cloud,
+  title={A cloud-based approach to big graphs},
+  author={Burkhardt, Paul and Waring, Christopher A},
+  booktitle={2015 IEEE High Performance Extreme Computing Conference (HPEC)},
+  pages={1--8},
+  year={2015},
+  organization={IEEE}
+}
+%
+@inproceedings{nowicki2021dynamic,
+  title={Dynamic graph algorithms with batch updates in the massively parallel computation model},
+  author={Nowicki, Krzysztof and Onak, Krzysztof},
+  booktitle={Proceedings of the 2021 ACM-SIAM Symposium on Discrete Algorithms (SODA)},
+  pages={2939--2958},
+  year={2021},
+  organization={SIAM}
+}
+%
+@article{tripathy2013new,
+  title={A New Parallel Algorithm for Minimum Spanning Tree (MST)},
+  author={Tripathy, Alok Ranjan and Ray, BNB},
+  journal={International Journal of Advanced Studies in Computers, Science and Engineering},
+  volume={2},
+  number={5},
+  pages={7},
+  year={2013},
+  publisher={International Journal of Advanced Studies in Computers, Science and Engineering}
+}
+%
+@article{durbhakula2020parallel,
+  title={Parallel Minimum Spanning Tree Algorithms and Evaluation},
+  author={Durbhakula, Suryanarayana Murthy},
+  journal={arXiv preprint arXiv:2005.06913},
+  year={2020}
+}
+%
+@article{Valiant1990,
+author = {Valiant, Leslie G.},
+title = {A bridging model for parallel computation},
+year = {1990},
+issue_date = {Aug. 1990},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {33},
+number = {8},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/79173.79181},
+doi = {10.1145/79173.79181},
+abstract = {The success of the von Neumann model of sequential computation is attributable to the fact that it is an efficient bridge between software and hardware: high-level languages can be efficiently compiled on to this model; yet it can be effeciently implemented in hardware. The author argues that an analogous bridge between software and hardware in required for parallel computation if that is to become as widely used. This article introduces the bulk-synchronous parallel (BSP) model as a candidate for this role, and gives results quantifying its efficiency both in implementing high-level language features and algorithms, as well as in being implemented in hardware.},
+journal = {Commun. ACM},
+month = Aug,
+pages = {103–111},
+numpages = {9}
+}
+%
+@inbook{Lonar2014,
+  title = {Parallelization of Minimum Spanning Tree Algorithms Using Distributed Memory Architectures},
+  ISBN = {9789401788328},
+  url = {http://dx.doi.org/10.1007/978-94-017-8832-8_39},
+  DOI = {10.1007/978-94-017-8832-8_39},
+  booktitle = {Transactions on Engineering Technologies},
+  publisher = {Springer Netherlands},
+  author = {Lončar,  Vladimir and Škrbić,  Srdjan and Balaž,  Antun},
+  year = {2014},
+  pages = {543–554}
+}
+%
+@article{Pasarella2024,
+  title = {A computational framework based on the dynamic pipeline approach},
+  volume = {139},
+  ISSN = {2352-2208},
+  url = {http://dx.doi.org/10.1016/j.jlamp.2024.100966},
+  DOI = {10.1016/j.jlamp.2024.100966},
+  journal = {Journal of Logical and Algebraic Methods in Programming},
+  publisher = {Elsevier BV},
+  author = {Pasarella,  Edelmira and Vidal,  Maria-Esther and Zoltan,  Cristina and Royo Sales,  Juan Pablo},
+  year = {2024},
+  %month = jun,
+  pages = {100966}
+}
+%
+@inproceedings{Karloff2010,
+  title = {A Model of Computation for MapReduce},
+  url = {http://dx.doi.org/10.1137/1.9781611973075.76},
+  DOI = {10.1137/1.9781611973075.76},
+  booktitle = {Proceedings of the Twenty-First Annual ACM-SIAM Symposium on Discrete Algorithms},
+  publisher = {Society for Industrial and Applied Mathematics},
+  author = {Karloff,  Howard and Suri,  Siddharth and Vassilvitskii,  Sergei},
+  year = {2010},
+  month = jan 
+}
+%
+@article{Dean2008,
+  title = {MapReduce: simplified data processing on large clusters},
+  volume = {51},
+  ISSN = {1557-7317},
+  url = {http://dx.doi.org/10.1145/1327452.1327492},
+  DOI = {10.1145/1327452.1327492},
+  number = {1},
+  journal = {Communications of the ACM},
+  publisher = {Association for Computing Machinery (ACM)},
+  author = {Dean,  Jeffrey and Ghemawat,  Sanjay},
+  year = {2008},
+  month = jan,
+  pages = {107–113}
+}
+%
+@inproceedings{Zoltan2019,
+  title={The dynamic pipeline paradigm},
+  author={Cristina Zoltan and Ana Edelmira Pasarella S{\'a}nchez and Juli{\'a}n Arturo Ar{\'a}oz Durand and Maria-Esther Vidal},
+  year={2019},
+  url={https://api.semanticscholar.org/CorpusID:208111957}
+}
+%
+@inproceedings{Pasarella2017,
+  title={Comparing MapReduce and Pipeline Implementations for Counting Triangles},
+  author={Edelmira Pasarella and Maria-Esther Vidal and Cristina Zoltan},
+  booktitle={PROLE},
+  year={2017},
+  url={https://api.semanticscholar.org/CorpusID:11937418}
+}
+%
+@inbook{Royo2021, 
+    place={San Sebasti\'an, Guip\'uzcoa}, 
+    title={Towards a dynamic pipeline framework implemented in (parallel) Haskell}, 
+    url={http://hdl.handle.net/2117/365477}, 
+    booktitle={Actas de las XX Jornadas de Programaci\'on y Lenguajes (PROLE 2021)}, 
+    publisher={Sociedad de Ingenier\'ia de Software y Tecnolog\'ias de Desarrollo de Software (SISTEDES)},
+    author={Royo, J. and Pasarella, Edelmira and Zolt\'an, C. and Vidal, Maria-Esther}, 
+    year={2021}, 
+    pages={1–17}
+}
+%
+@thesis{Royo_Sales_2021, 
+    title={An algorithm for incrementally enumerating bitriangles in large bipartite networks}, 
+    url={http://hdl.handle.net/2117/361615}, 
+    school={UPC, Facultat d'Informàtica de Barcelona, Departament de Ciències de la Computaci\'o}, 
+    author={Royo Sales, Juan Pablo}, 
+    year={2021}, 
+    month= Oct
+}
+%
+@thesis{Lugosi_Enes_2019, 
+    title={Concurrent Implementation of Multidimensional Range Queries}, 
+    url={http://hdl.handle.net/2117/169246}, 
+    school={UPC, Facultat d'Informàtica de Barcelona, Departament de Ciències de la Computaci\'o}, 
+    author={Lugosi Enes, Daniel}, 
+    year={2019},
+    month= Jul
+}
+%
+@article{Gilbert1959,
+author = {E. N. Gilbert},
+title = {{Random Graphs}},
+volume = {30},
+journal = {The Annals of Mathematical Statistics},
+number = {4},
+publisher = {Institute of Mathematical Statistics},
+pages = {1141 -- 1144},
+year = {1959},
+doi = {10.1214/aoms/1177706098},
+URL = {https://doi.org/10.1214/aoms/1177706098}
+}
+%
+@article{Batagelj2005,
+  title = {Efficient generation of large random networks},
+  volume = {71},
+  ISSN = {1550-2376},
+  url = {http://dx.doi.org/10.1103/PhysRevE.71.036113},
+  DOI = {10.1103/physreve.71.036113},
+  number = {3},
+  journal = {Physical Review E},
+  publisher = {American Physical Society (APS)},
+  author = {Batagelj,  Vladimir and Brandes,  Ulrik},
+  year = {2005},
+  month = mar 
+}
+%
+@article{Galler1964,
+author = {Galler, Bernard A. and Fisher, Michael J.},
+title = {An improved equivalence algorithm},
+year = {1964},
+issue_date = {May 1964},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {7},
+number = {5},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/364099.364331},
+doi = {10.1145/364099.364331},
+abstract = {An algorithm for assigning storage on the basis of EQUIVALENCE, DIMENSION and COMMON declarations is presented. The algorithm is based on a tree structure, and has reduced computation time by 40 percent over a previously published algorithm by identifying all equivalence classes with one scan of the EQUIVALENCE declarations. The method is applicable in any problem in which it is necessary to identify equivalence classes, given the element pairs defining the equivalence relation.},
+journal = {Commun. ACM},
+month = May,
+pages = {301–303},
+numpages = {3}
+}
+%
+@article{Tarjan1984,
+author = {Tarjan, Robert E. and van Leeuwen, Jan},
+title = {Worst-case Analysis of Set Union Algorithms},
+year = {1984},
+issue_date = {April 1984},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {31},
+number = {2},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/62.2160},
+doi = {10.1145/62.2160},
+journal = {J. ACM},
+month = Mar,
+pages = {245–281},
+numpages = {37}
+}
+%
+@article{MacLaren1965,
+author = {MacLaren, M. Donald and Marsaglia, George},
+title = {Uniform Random Number Generators},
+year = {1965},
+issue_date = {Jan. 1965},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {12},
+number = {1},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/321250.321257},
+doi = {10.1145/321250.321257},
+journal = {J. ACM},
+month = Jan,
+pages = {83–89},
+numpages = {7}
+}
+@book{Knuth_1997, 
+    title={Art of Computer Programming, the: Seminumerical Algorithms, volume 2}, 
+    publisher={Pearson Education (US)}, 
+    author={Knuth, Donald}, 
+    year={1997}
+} 
+
+@article{Massey1951,
+author = {Frank J. Massey Jr.},
+title = {The Kolmogorov-Smirnov Test for Goodness of Fit},
+journal = {Journal of the American Statistical Association},
+volume = {46},
+number = {253},
+pages = {68--78},
+year = {1951},
+publisher = {Taylor \& Francis},
+doi = {10.1080/01621459.1951.10500769},
+URL = {https://www.tandfonline.com/doi/abs/10.1080/01621459.1951.10500769},
+eprint = {https://www.tandfonline.com/doi/pdf/10.1080/01621459.1951.10500769}
+}
+%
+@inproceedings{Osipov2009,
+author = {Vitaly Osipov and Peter Sanders and Johannes Singler},
+title = {The Filter-Kruskal Minimum Spanning Tree Algorithm},
+booktitle = {2009 Proceedings of the Workshop on Algorithm Engineering and Experiments (ALENEX)},
+pages = {52-61},
+doi = {10.1137/1.9781611972894.5},
+URL = {https://epubs.siam.org/doi/abs/10.1137/1.9781611972894.5},
+eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611972894.5},
+abstract = { Abstract We present Filter-Kruskal – a simple modification of Kruskal's algorithm that avoids sorting edges that are “obviously” not in the MST. For arbitrary graphs with random edge weights Filter-Kruskal runs in time O (m + n log n log m/n), i.e. in linear time for not too sparse graphs. Experiments indicate that the algorithm has very good practical performance over the entire range of edge densities. An equally simple parallelization seems to be the currently best practical algorithm on multicore machines.},
+year = {2009}
+}
+%
+@inproceedings{Karp1992OnLineAV,
+  title={On-Line Algorithms Versus Off-Line Algorithms: How Much is it Worth to Know the Future?},
+  author={Richard M. Karp},
+  booktitle={IFIP Congress},
+  year={1992},
+  url={https://api.semanticscholar.org/CorpusID:37205055}
+}
+%
+@article{SleatorTarjan1985,
+author = {Sleator, Daniel D. and Tarjan, Robert E.},
+title = {Amortized efficiency of list update and paging rules},
+year = {1985},
+issue_date = {Feb. 1985},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {28},
+number = {2},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/2786.2793},
+doi = {10.1145/2786.2793},
+abstract = {In this article we study the amortized efficiency of the “move-to-front” and similar rules for dynamically maintaining a linear list. Under the assumption that accessing the ith element from the front of the list takes θ(i) time, we show that move-to-front is within a constant factor of optimum among a wide class of list maintenance rules. Other natural heuristics, such as the transpose and frequency count rules, do not share this property. We generalize our results to show that move-to-front is within a constant factor of optimum as long as the access cost is a convex function. We also study paging, a setting in which the access cost is not convex. The paging rule corresponding to move-to-front is the “least recently used” (LRU) replacement rule. We analyze the amortized complexity of LRU, showing that its efficiency differs from that of the off-line paging rule (Belady's MIN algorithm) by a factor that depends on the size of fast memory. No on-line paging algorithm has better amortized performance.},
+journal = {Commun. ACM},
+month = feb,
+pages = {202–208},
+numpages = {7}
+}
+%
+@inbook{Aspnes1998,
+  title = {Competitive analysis of distributed algorithms},
+  ISBN = {9783540683117},
+  ISSN = {1611-3349},
+  url = {http://dx.doi.org/10.1007/BFb0029567},
+  DOI = {10.1007/bfb0029567},
+  booktitle = {Lecture Notes in Computer Science},
+  publisher = {Springer Berlin Heidelberg},
+  author = {Aspnes,  James},
+  year = {1998},
+  pages = {118–146}
+}
+%
+@inproceedings{Awebuch1992,
+author = {Awerbuch, Baruch and Kutten, Shay and Peleg, David},
+title = {Competitive distributed job scheduling (extended abstract)},
+year = {1992},
+isbn = {0897915119},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/129712.129768},
+doi = {10.1145/129712.129768},
+abstract = {This paper examines the problem of balancing the job load in a network of processors, and introduces an online algorithm for scheduling a sequence of jobs in a competitive manner. The algorithm is shown to be polylog (n)-competitive according to a strict definition that forces the online algorithm to be competitive even when considering any bounded area of the network and bounded period of time.We also analyze the common greedy feedback-based approach, and provide matching lower and upper bounds (up to a polylogarithmic factor) for the tradeoff between the costs of searches and updates under this approach.},
+booktitle = {Proceedings of the Twenty-Fourth Annual ACM Symposium on Theory of Computing},
+pages = {571–580},
+numpages = {10},
+location = {Victoria, British Columbia, Canada},
+series = {STOC '92}
+}
+%
+@inbook{TarjanDSandNA,
+
+title = {6. Minimum Spanning Trees},
+booktitle = {Data Structures and Network Algorithms},
+chapter = {},
+pages = {71-83},
+doi = {10.1137/1.9781611970265.ch6},
+URL = {https://epubs.siam.org/doi/abs/10.1137/1.9781611970265.ch6},
+eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611970265.ch6},
+    abstract = { 6.1. The greedy method. In the last half of this book we shall use the data structures developed in the first half to solve four classical problems in network optimization. A network is a graph, either undirected or directed, each of whose edges has an associated real number. The object of a network optimization problem is to find a subgraph of a given network that has certain specified properties and that minimizes (or maximizes) some function of the edge numbers. In this chapter we shall study one of the simplest problems of network optimization, the minimum spanning tree problem: given a connected undirected graph each of whose edges has a real-valued cost, find a spanning tree of the graph whose total edge cost is minimum. We shall denote the cost of an edge e= {v,w} by cost (e) or, to avoid extra brackets, by cost (v, w). }
+}
+%
+@ARTICLE{1374962,
+
+  author={Neely, M.J. and Modiano, E. and Rohrs, C.E.},
+
+  journal={IEEE Journal on Selected Areas in Communications}, 
+
+  title={Dynamic power allocation and routing for time-varying wireless networks}, 
+
+  year={2005},
+
+  volume={23},
+
+  number={1},
+
+  pages={89-103},
+
+  keywords={Routing;Wireless networks;Peer to peer computing;Control systems;Time-varying channels;Telecommunication traffic;Traffic control;Delay;Stability;Relays;Capacity;control;optimization;queueing},
+
+  doi={10.1109/JSAC.2004.837349}}
+
+@ARTICLE{Neely2005, author={Neely, M.J. and Modiano, E. and Rohrs, C.E.}, journal={IEEE Journal on Selected Areas in Communications}, title={Dynamic power allocation and routing for time-varying wireless networks}, year={2005}, volume={23}, number={1}, pages={89-103}, keywords={Routing;Wireless networks;Peer to peer computing;Control systems;Time-varying channels;Telecommunication traffic;Traffic control;Delay;Stability;Relays;Capacity;control;optimization;queueing}, doi={10.1109/JSAC.2004.837349}} 
+%
+@inproceedings{Tan2010,
+author = {Tan, Chenhao and Tang, Jie and Sun, Jimeng and Lin, Quan and Wang, Fengjiao},
+title = {Social action tracking via noise tolerant time-varying factor graphs},
+year = {2010},
+isbn = {9781450300551},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1835804.1835936},
+doi = {10.1145/1835804.1835936},
+abstract = {It is well known that users' behaviors (actions) in a social network are influenced by various factors such as personal interests, social influence, and global trends. However, few publications systematically study how social actions evolve in a dynamic social network and to what extent different factors affect the user actions.In this paper, we propose a Noise Tolerant Time-varying Factor Graph Model (NTT-FGM) for modeling and predicting social actions. NTT-FGM simultaneously models social network structure, user attributes and user action history for better prediction of the users' future actions. More specifically, a user's action at time t is generated by her latent state at t, which is influenced by her attributes, her own latent state at time t-1 and her neighbors' states at time t and t-1. Based on this intuition, we formalize the social action tracking problem using the NTT-FGM model; then present an efficient algorithm to learn the model, by combining the ideas from both continuous linear system and Markov random field.Finally, we present a case study of our model on predicting future social actions. We validate the model on three different types of real-world data sets. Qualitatively, our model can uncover some interesting patterns of the social dynamics. Quantitatively, experimental results show that the proposed method outperforms several baseline methods for action prediction.},
+booktitle = {Proceedings of the 16th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+pages = {1049–1058},
+numpages = {10},
+keywords = {social action tracking, social influence analysis, time-varying factor graphs},
+location = {Washington, DC, USA},
+series = {KDD '10}
+}
+%
+@inproceedings{Tang2009,
+author = {Tang, John and Musolesi, Mirco and Mascolo, Cecilia and Latora, Vito},
+title = {Temporal distance metrics for social network analysis},
+year = {2009},
+isbn = {9781605584454},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1592665.1592674},
+doi = {10.1145/1592665.1592674},
+abstract = {The analysis of social and technological networks has attracted a lot of attention as social networking applications and mobile sensing devices have given us a wealth of real data. Classic studies looked at analysing static or aggregated networks, i.e., networks that do not change over time or built as the results of aggregation of information over a certain period of time. Given the soaring collections of measurements related to very large, real network traces, researchers are quickly starting to realise that connections are inherently varying over time and exhibit more dimensionality than static analysis can capture.In this paper we propose new temporal distance metrics to quantify and compare the speed (delay) of information diffusion processes taking into account the evolution of a network from a local and global view. We show how these metrics are able to capture the temporal characteristics of time-varying graphs, such as delay, duration and time order of contacts (interactions), compared to the metrics used in the past on static graphs. As a proof of concept we apply these techniques to two classes of time-varying networks, namely connectivity of mobile devices and e-mail exchanges.},
+booktitle = {Proceedings of the 2nd ACM Workshop on Online Social Networks},
+pages = {31–36},
+numpages = {6},
+keywords = {temporal metrics, temporal graphs, temporal efficiency, social networks, information diffusion, complex networks},
+location = {Barcelona, Spain},
+series = {WOSN '09}
+}
+%
+@article{Harary1997,
+  title = {Dynamic graph models},
+  volume = {25},
+  ISSN = {0895-7177},
+  url = {http://dx.doi.org/10.1016/S0895-7177(97)00050-2},
+  DOI = {10.1016/s0895-7177(97)00050-2},
+  number = {7},
+  journal = {Mathematical and Computer Modelling},
+  publisher = {Elsevier BV},
+  author = {Harary,  F. and Gupta,  G.},
+  year = {1997},
+  month = apr,
+  pages = {79–87}
+}
+%
+@book{Cormen4thEdition,
+  author       = {Thomas H. Cormen and
+                  Charles E. Leiserson and
+                  Ronald L. Rivest and
+                  Clifford Stein},
+  title        = {Introduction to Algorithms, 4th Edition},
+  publisher    = {{MIT} Press},
+  year         = {2022},
+  url          = {http://mitpress.mit.edu/9780262046305/introduction-to-algorithms/},
+  isbn         = {978-0-262-04630-5},
+}
+%
+@misc{AlgorithmicsNotes,
+    author = {Maria J. Serna},
+    title = {Lecture notes in Algorithmics},
+    publisher = {UPC, Facultat d'Informàtica de Barcelona, Departament de Ciències de la Computaci\'o},
+}
+%
+  @incollection{bader2002algorithm,
+  title={Algorithm engineering for parallel computation},
+  author={Bader, David A and Moret, Bernard ME and Sanders, Peter},
+  booktitle={Experimental Algorithmics},
+  pages={1--23},
+  year={2002},
+  publisher={Springer}
+}
